@@ -1,38 +1,39 @@
-{% extends 'bootstrap/base.html' %}
-{% block content %}
-
-    <div class="container">
-        <div class="jumbotron text-center">
-            <h2>
-            bluefinch
-            </h2>
-        </div>
-
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div>
+      <div id="chatbox">
+        <p class="botText"><span>Hi! Was kann ich tun?</span></p>
+      </div>
+      <div id="userInput">
+        <input id="textInput" type="text" name="msg" placeholder="Message">
+        <input id="buttonInput" type="submit" value="Send">
+      </div>
+      <script>
+        function getBotResponse() {
+          var rawText = $("#textInput").val();
+          var userHtml = '<p class="userText"><span>' + rawText + '</span></p>';
+          $("#textInput").val("");
+          $("#chatbox").append(userHtml);
+          document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+          $.get("/get", { msg: rawText }).done(function(data) {
+            var botHtml = '<p class="botText"><span>' + data + '</span></p>';
+            $("#chatbox").append(botHtml);
+            document.getElementById('userInput').scrollIntoView({block: 'start', behavior: 'smooth'});
+          });
+        }
+        $("#textInput").keypress(function(e) {
+            if(e.which == 13) {
+                getBotResponse();
+            }
+        });
+        $("#buttonInput").click(function() {
+          getBotResponse();
+        })
+      </script>
     </div>
-
-    <div class="container">
-        <form action="{{url_for('analyse')}}" method="POST" id="1">
-        <textarea name="rawtext" rows="3" cols="3" class="form-control">
-
-        </textarea>
-        <input type="submit" name="" value="Submit" class="btn btn-primary">
-    </form>
-    </div>
-
-    <div class="container">
-        <div class="card">
-            <div>
-                <p>{{ received_text }}</p>
-                <hr/>
-                <p>Score</p>
-                {{tokens}}<br/>
-                {{blob_sentiment}}<br/>
-                {{blob_subjectivity}}<br/>
-
-
-            </div>
-        </div>
-    </div>
-
-
-{% endblock %}
+  </body>
+</html>

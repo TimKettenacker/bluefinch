@@ -4,28 +4,26 @@
 # flask run
 from flask import Flask, render_template, request, url_for
 from flask_bootstrap import Bootstrap
-
-
-from textblob import TextBlob, Word
-import random
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
 
 app = Flask(__name__)
 Bootstrap(app)
+
+bot = ChatBot("Chatterbot", storage_adapter="chatterbot.storage.SQLStorageAdapter")
+trainer = ChatterBotCorpusTrainer(bot)
+trainer.train("chatterbot.corpus.german.conversations", "chatterbot.corpus.german.greetings")
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/analyse', methods=['POST'])
-def analyse():
-    if request.method == 'POST':
-        rawtext = request.form['rawtext']
-        blob = TextBlob(rawtext)
-        blob_sentiment, blob_subjectivity = blob.sentiment.polarity, blob.subjectivity
-        tokens = [blob.words]
 
-    return render_template('index.html', received_text = blob, tokens=tokens, blob_sentiment = blob_sentiment,
-                           blob_subjectivity = blob_subjectivity)
+@app.route("/get")
+def get_bot_response():
+    userText = request.args.get('msg')
+    return str(bot.get_response(userText))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
