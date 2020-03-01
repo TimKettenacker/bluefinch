@@ -1,15 +1,19 @@
 <?xml version="1.0"?>
 <rdf:RDF xmlns="http://purl.org/goodrelations/v1#"
      xml:base="http://purl.org/goodrelations/v1"
+     xmlns:C3="http://webprotege.stanford.edu/hat_Kapazit%C3%"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:v1="http://purl.org/goodrelations/v1#"
+     xmlns:C31="http://webprotege.stanford.edu/Gespr%C3%"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:foaf="http://xmlns.com/foaf/0.1/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     xmlns:terms="http://purl.org/dc/terms/">
+     xmlns:terms="http://purl.org/dc/terms/"
+     xmlns:schema="http://schema.org/"
+     xmlns:webprotege="http://webprotege.stanford.edu/">
     <owl:Ontology rdf:about="http://purl.org/goodrelations/v1">
         <dc:contributor xml:lang="en">Work on the GoodRelations ontology and related research and development has been partly supported by the Austrian BMVIT/FFG under the FIT-IT Semantic Systems project myOntology (grant no. 812515/9284), by a Young Researcher&apos;s Grant (Nachwuchsfoerderung 2005-2006) from the Leopold-Franzens-Universitaet Innsbruck, by the European Commission under the project SUPER (FP6-026850), and by the German Federal Ministry of Research (BMBF) by a grant under the KMU Innovativ program as part of the Intelligent Match project (FKZ 01IS10022B). The</dc:contributor>
         <dc:creator xml:lang="en">Martin Hepp</dc:creator>
@@ -1405,6 +1409,378 @@ Note: This is just a rough classification for filtering offers. It is up to the 
         <rdfs:comment xml:lang="en">Payment by credit or debit cards issued by the VISA network.</rdfs:comment>
         <rdfs:isDefinedBy rdf:resource="http://purl.org/goodrelations/v1"/>
         <rdfs:label xml:lang="en">VISA (payment method)</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Apple -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/Apple">
+        <rdfs:label>Apple</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11Garantie -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11Garantie">
+        <rdf:type rdf:resource="http://purl.org/goodrelations/v1#WarrantyPromise"/>
+        <rdf:type rdf:resource="http://purl.org/goodrelations/v1#WarrantyScope"/>
+        <durationOfWarrantyInMonths xml:lang="de">12 Monate Garantie auf Zubehör</durationOfWarrantyInMonths>
+        <durationOfWarrantyInMonths xml:lang="de">12 Monate Herstellergarantie</durationOfWarrantyInMonths>
+        <rdfs:label xml:lang="de">Apple iPhone 11 Garantie</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11Hauptkameraspezifikation -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11Hauptkameraspezifikation">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/Hauptkamera"/>
+        <webprotege:Kamerafeature xml:lang="de">Maximale Video-Auflösung: 3840 x 2160 (4K)</webprotege:Kamerafeature>
+        <webprotege:Kamerafeature xml:lang="de">True Tone Flash</webprotege:Kamerafeature>
+        <webprotege:Pixel xml:lang="de">12,0 Megapixel</webprotege:Pixel>
+        <rdfs:label xml:lang="de">Apple iPhone 11 Hauptkameraspezifikation</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11Pricing -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11Pricing">
+        <rdf:type rdf:resource="http://purl.org/goodrelations/v1#UnitPriceSpecification"/>
+        <priceType xml:lang="de">monatliche Rate nur € 64,92</priceType>
+        <priceType xml:lang="de">regulärer Preis 779,00</priceType>
+        <rdfs:label xml:lang="de">Apple iPhone 11 Pricing für 64 GB</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11ProFrontkameraspezifikation -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11ProFrontkameraspezifikation">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/Frontkamera"/>
+        <webprotege:Kamerafeature xml:lang="de">Maximale Video-Auflösung: 3840 x 2160 (4K)</webprotege:Kamerafeature>
+        <webprotege:Pixel xml:lang="de">12,0 Megapixel</webprotege:Pixel>
+        <rdfs:label xml:lang="de">Apple iPhone 11 Pro Frontkameraspezifikation</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11ProHauptkameraspezifikation -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11ProHauptkameraspezifikation">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/Hauptkamera"/>
+        <webprotege:Kamerafeature xml:lang="de">Maximale Video-Auflösung: 3840 x 2160 (4K)</webprotege:Kamerafeature>
+        <webprotege:Kamerafeature xml:lang="de">True Tone Flash</webprotege:Kamerafeature>
+        <webprotege:Pixel xml:lang="de">12,0 Megapixel</webprotege:Pixel>
+        <rdfs:label xml:lang="de">Apple iPhone 11 Pro Hauptkameraspezifikation</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11ProProduktspezifikation -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11ProProduktspezifikation">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <weight rdf:resource="http://webprotege.stanford.edu/188G"/>
+        <webprotege:hat_Kamera rdf:resource="http://webprotege.stanford.edu/AppleIPhone11ProFrontkameraspezifikation"/>
+        <webprotege:hat_Kamera rdf:resource="http://webprotege.stanford.edu/AppleIPhone11ProHauptkameraspezifikation"/>
+        <webprotege:hat_Sim rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Simspezifikation"/>
+        <C3:A4t rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Kapazit%C3%A4t"/>
+        <webprotege:Display xml:lang="de">1125 x 2436 Pixel und 458 ppi</webprotege:Display>
+        <webprotege:Display xml:lang="de">14,7 cm (5,8 Zoll) Super Retina XDR Display</webprotege:Display>
+        <webprotege:Kamerafeature xml:lang="de">Blende: f/2,4</webprotege:Kamerafeature>
+        <webprotege:Kamerafeature xml:lang="de">Nachtmodus</webprotege:Kamerafeature>
+        <webprotege:Kamerafeature xml:lang="de">Optische Bildstabilisierung</webprotege:Kamerafeature>
+        <webprotege:Kamerafeature xml:lang="de">Trio-Camera</webprotege:Kamerafeature>
+        <webprotege:Kamerafeature xml:lang="de">Weitwinkelobjektiv</webprotege:Kamerafeature>
+        <webprotege:Kommunikation xml:lang="de">AirPlay</webprotege:Kommunikation>
+        <webprotege:Kommunikation xml:lang="de">Bluetooth: 5.0</webprotege:Kommunikation>
+        <webprotege:Kommunikation xml:lang="de">GSM: Quad-Band (850/900/1800/1900)</webprotege:Kommunikation>
+        <webprotege:Kommunikation xml:lang="de">LTE Band: LTE-A</webprotege:Kommunikation>
+        <webprotege:Kommunikation xml:lang="de">NFC</webprotege:Kommunikation>
+        <webprotege:Kommunikation xml:lang="de">UMTS/HSPA: Quad-Band (850/900/1900/2100)</webprotege:Kommunikation>
+        <webprotege:Kommunikation xml:lang="de">WLAN 802.11 a/b/g/n/ac/ax</webprotege:Kommunikation>
+        <webprotege:Prozessor xml:lang="de">64-Bit-Prozessorarchitektur</webprotege:Prozessor>
+        <webprotege:Prozessor xml:lang="de">Apple A13 Bionic Hexa-Core-Prozessor</webprotege:Prozessor>
+        <webprotege:Schnittstellen xml:lang="de">Kopfhörer-Anschluss über Adapter</webprotege:Schnittstellen>
+        <webprotege:Schnittstellen xml:lang="de">Lightning Connector</webprotege:Schnittstellen>
+        <webprotege:Sensor xml:lang="de">Barometer</webprotege:Sensor>
+        <webprotege:Sensor xml:lang="de">Bewegungssensor</webprotege:Sensor>
+        <webprotege:Sensor xml:lang="de">Digitaler Kompass</webprotege:Sensor>
+        <webprotege:Sensor xml:lang="de">GPS-Ortung</webprotege:Sensor>
+        <webprotege:Sensor xml:lang="de">Gyrosensor</webprotege:Sensor>
+        <webprotege:Sensor xml:lang="de">Näherungssensor</webprotege:Sensor>
+        <webprotege:Sensor xml:lang="de">Umgebungslichtsensor</webprotege:Sensor>
+        <webprotege:hat_allgemeines_Feature xml:lang="de">Nach IEC Norm 60529 unter IP68 klassifiziert (bis zu 30 Minuten und in einer Tiefe von bis zu 2 Metern)</webprotege:hat_allgemeines_Feature>
+        <webprotege:hat_allgemeines_Feature xml:lang="de">Schutz vor Spritzwasser und Staub</webprotege:hat_allgemeines_Feature>
+        <rdfs:label xml:lang="de">Apple iPhone 11 Pro Produktspezifikation</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11Produktspezifikation -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11Produktspezifikation">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <weight rdf:resource="http://webprotege.stanford.edu/194G"/>
+        <webprotege:hat_Kamera rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Hauptkameraspezifikation"/>
+        <webprotege:hat_Kamera rdf:resource="http://webprotege.stanford.edu/AppleIphone11Frontkameraspezifikation"/>
+        <webprotege:hat_Sim rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Simspezifikation"/>
+        <C3:A4t rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Kapazit%C3%A4t"/>
+        <webprotege:Display xml:lang="de">15,5 cm (6,1 Zoll) Liquid Retina HD Display</webprotege:Display>
+        <webprotege:Display xml:lang="de">828 x 1792 Pixel und 326 ppi</webprotege:Display>
+        <webprotege:Kamerafeature xml:lang="de">Blende: f/2,4</webprotege:Kamerafeature>
+        <webprotege:Kamerafeature xml:lang="de">Dual-Kamera</webprotege:Kamerafeature>
+        <webprotege:Kamerafeature xml:lang="de">Nachtmodus</webprotege:Kamerafeature>
+        <webprotege:Kamerafeature xml:lang="de">Optische Bildstabilisierung</webprotege:Kamerafeature>
+        <webprotege:Kamerafeature xml:lang="de">Weitwinkelobjektiv</webprotege:Kamerafeature>
+        <webprotege:Kommunikation xml:lang="de">AirPlay</webprotege:Kommunikation>
+        <webprotege:Kommunikation xml:lang="de">Bluetooth: 5.0</webprotege:Kommunikation>
+        <webprotege:Kommunikation xml:lang="de">GSM: Quad-Band (850/900/1800/1900)</webprotege:Kommunikation>
+        <webprotege:Kommunikation xml:lang="de">LTE Band: LTE-A</webprotege:Kommunikation>
+        <webprotege:Kommunikation xml:lang="de">NFC</webprotege:Kommunikation>
+        <webprotege:Kommunikation xml:lang="de">UMTS/HSPA: Quad-Band (850/900/1900/2100)</webprotege:Kommunikation>
+        <webprotege:Kommunikation xml:lang="de">WLAN 802.11 a/b/g/n/ac/ax</webprotege:Kommunikation>
+        <webprotege:Prozessor xml:lang="de">64-Bit-Prozessorarchitektur</webprotege:Prozessor>
+        <webprotege:Prozessor xml:lang="de">Apple A13 Bionic Hexa-Core-Prozessor</webprotege:Prozessor>
+        <webprotege:Schnittstellen xml:lang="de">Kopfhörer-Anschluss über Adapter</webprotege:Schnittstellen>
+        <webprotege:Schnittstellen xml:lang="de">Lightning Connector</webprotege:Schnittstellen>
+        <webprotege:Sensor xml:lang="de">Barometer</webprotege:Sensor>
+        <webprotege:Sensor xml:lang="de">Bewegungssensor</webprotege:Sensor>
+        <webprotege:Sensor xml:lang="de">Digitaler Kompass</webprotege:Sensor>
+        <webprotege:Sensor xml:lang="de">GPS-Ortung</webprotege:Sensor>
+        <webprotege:Sensor xml:lang="de">Gyrosensor</webprotege:Sensor>
+        <webprotege:Sensor xml:lang="de">Näherungssensor</webprotege:Sensor>
+        <webprotege:Sensor xml:lang="de">Umgebungslichtsensor</webprotege:Sensor>
+        <webprotege:hat_allgemeines_Feature xml:lang="de">Dual-Active</webprotege:hat_allgemeines_Feature>
+        <webprotege:hat_allgemeines_Feature xml:lang="de">Dual-SIM-Funktion</webprotege:hat_allgemeines_Feature>
+        <webprotege:hat_allgemeines_Feature xml:lang="de">Nach IEC Norm 60529 unter IP68 klassifiziert (bis zu 30 Minuten und in einer Tiefe von bis zu 2 Metern)</webprotege:hat_allgemeines_Feature>
+        <webprotege:hat_allgemeines_Feature xml:lang="de">Schutz vor Spritzwasser und Staub</webprotege:hat_allgemeines_Feature>
+        <rdfs:label xml:lang="de">Apple iPhone 11 Produktspezifikation</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11Simspezifikation -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11Simspezifikation">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/Sim"/>
+        <webprotege:Simkarte xml:lang="de">nanoSIM</webprotege:Simkarte>
+        <webprotege:Simtyp xml:lang="de">eSIM</webprotege:Simtyp>
+        <rdfs:label xml:lang="de">Apple iPhone 11 Simspezifikation</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIphone -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIphone">
+        <rdfs:label>Apple Iphone</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIphone11Frontkameraspezifikation -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIphone11Frontkameraspezifikation">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/Frontkamera"/>
+        <webprotege:Kamerafeature xml:lang="de">Maximale Video-Auflösung: 3840 x 2160 (4K)</webprotege:Kamerafeature>
+        <webprotege:Pixel xml:lang="de">12,0 Megapixel</webprotege:Pixel>
+        <rdfs:label xml:lang="de">Apple Iphone 11 Frontkameraspezifikation</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/188G -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/188G">
+        <rdfs:label>188 g</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/194G -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/194G">
+        <rdfs:label>194 g</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11128GBWei%C3%9FMWM22ZD%2FA -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11128GBWei%C3%9FMWM22ZD%2FA">
+        <rdf:type rdf:resource="http://schema.org/Product"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#ByInvoice"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#MasterCard"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#VISA"/>
+        <hasBrand rdf:resource="http://webprotege.stanford.edu/AppleIphone"/>
+        <hasPriceSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11PricingF%C3%BCr128GB"/>
+        <hasWarrantyPromise rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
+        <hasWarrantyScope rdf:resource="http://webprotege.stanford.edu/AppleIphone"/>
+        <schema:manufacturer rdf:resource="http://webprotege.stanford.edu/Apple"/>
+        <webprotege:hasProductSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Produktspezifikation"/>
+        <color xml:lang="de">weiß</color>
+        <name xml:lang="de">Apple iPhone 11 128 GB Weiß MWM22ZD/A</name>
+        <schema:productID xml:lang="de">A415-1FX</schema:productID>
+        <webprotege:Speicher rdf:datatype="http://www.w3.org/2001/XMLSchema#string">128 GB</webprotege:Speicher>
+        <rdfs:label>Apple iPhone 11 128 GB Weiß MWM22ZD/A</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11256GBGelbMWMA2ZD%2FA -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11256GBGelbMWMA2ZD%2FA">
+        <rdf:type rdf:resource="http://schema.org/Product"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#ByInvoice"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#MasterCard"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#VISA"/>
+        <hasBrand rdf:resource="http://webprotege.stanford.edu/AppleIphone"/>
+        <hasPriceSpecification rdf:resource="http://webprotege.stanford.edu/AppleIphone11PricingF%C3%BCr265GB"/>
+        <hasWarrantyPromise rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
+        <hasWarrantyScope rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
+        <schema:manufacturer rdf:resource="http://webprotege.stanford.edu/Apple"/>
+        <webprotege:hasProductSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Produktspezifikation"/>
+        <color xml:lang="de">gelb</color>
+        <name xml:lang="de">Apple iPhone 11 256 GB Gelb MWMA2ZD/A</name>
+        <schema:productID xml:lang="de">A415-1G5</schema:productID>
+        <webprotege:Speicher xml:lang="de">256 GB</webprotege:Speicher>
+        <rdfs:label xml:lang="de">Apple iPhone 11 256 GB Gelb MWMA2ZD/A</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11256GBWei%C3%9FMWM82ZD%2FA -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11256GBWei%C3%9FMWM82ZD%2FA">
+        <rdf:type rdf:resource="http://schema.org/Product"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#ByInvoice"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#MasterCard"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#VISA"/>
+        <hasBrand rdf:resource="http://webprotege.stanford.edu/AppleIphone"/>
+        <hasPriceSpecification rdf:resource="http://webprotege.stanford.edu/AppleIphone11PricingF%C3%BCr265GB"/>
+        <hasWarrantyPromise rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
+        <hasWarrantyScope rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
+        <schema:manufacturer rdf:resource="http://webprotege.stanford.edu/Apple"/>
+        <webprotege:hasProductSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Produktspezifikation"/>
+        <color xml:lang="de">weiß</color>
+        <name xml:lang="de">Apple iPhone 11 256 GB Weiß MWM82ZD/A</name>
+        <schema:productID xml:lang="de">A415-1G3</schema:productID>
+        <webprotege:Speicher xml:lang="de">256 GB</webprotege:Speicher>
+        <rdfs:label>Apple iPhone 11 256 GB Weiß MWM82ZD/A</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone1164GBGelbMWLW2ZD%2FA -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone1164GBGelbMWLW2ZD%2FA">
+        <rdf:type rdf:resource="http://schema.org/Product"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#ByInvoice"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#MasterCard"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#VISA"/>
+        <hasBrand rdf:resource="http://webprotege.stanford.edu/AppleIphone"/>
+        <hasPriceSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Pricing"/>
+        <hasWarrantyPromise rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
+        <schema:manufacturer rdf:resource="http://webprotege.stanford.edu/Apple"/>
+        <webprotege:hasProductSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Produktspezifikation"/>
+        <color xml:lang="de">gelb</color>
+        <name xml:lang="de">Apple iPhone 11 64 GB Gelb MWLW2ZD/A</name>
+        <schema:productID xml:lang="de">A415-1FT</schema:productID>
+        <webprotege:Speicher xml:lang="de">64 GB</webprotege:Speicher>
+        <rdfs:label>Apple iPhone 11 64 GB Gelb MWLW2ZD/A</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone1164GBWei%C3%9FMWLU2ZD%2FA -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone1164GBWei%C3%9FMWLU2ZD%2FA">
+        <rdf:type rdf:resource="http://schema.org/Product"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#ByInvoice"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#MasterCard"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#VISA"/>
+        <hasBrand rdf:resource="http://webprotege.stanford.edu/AppleIphone"/>
+        <hasPriceSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Pricing"/>
+        <hasWarrantyPromise rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
+        <hasWarrantyScope rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
+        <schema:manufacturer rdf:resource="http://webprotege.stanford.edu/Apple"/>
+        <webprotege:hasProductSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Produktspezifikation"/>
+        <color xml:lang="de">weiß</color>
+        <name xml:lang="de">Apple iPhone 11 64 GB Weiß MWLU2ZD/A</name>
+        <schema:productID xml:lang="de">A415-1FR</schema:productID>
+        <webprotege:Speicher rdf:datatype="http://www.w3.org/2001/XMLSchema#string">64 GB</webprotege:Speicher>
+        <rdfs:label xml:lang="de">Apple iPhone 11 64 GB Weiß MWLU2ZD/A</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11Kapazit%C3%A4t -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11Kapazit%C3%A4t">
+        <rdf:type rdf:resource="http://webprotege.stanford.edu/Kapazit%C3%A4t"/>
+        <webprotege:Akkutyp xml:lang="de">Lithium-Ionen</webprotege:Akkutyp>
+        <webprotege:Ladeoption xml:lang="de">Kabelloses Laden (Qi-Standard)</webprotege:Ladeoption>
+        <C31:A4chszeit xml:lang="de">26 h am Stück</C31:A4chszeit>
+        <rdfs:label xml:lang="de">Apple iPhone 11 Kapazität</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11PricingF%C3%BCr128GB -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11PricingF%C3%BCr128GB">
+        <rdf:type rdf:resource="http://purl.org/goodrelations/v1#PriceSpecification"/>
+        <priceType xml:lang="de">monatliche Rate nur € 69,92</priceType>
+        <priceType xml:lang="de">regulärer Preis 839,00 €</priceType>
+        <rdfs:label>Apple iPhone 11 Pricing für 128 GB</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11Pro64GBNachtgr%C3%BCnMWC62ZD%2FA -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11Pro64GBNachtgr%C3%BCnMWC62ZD%2FA">
+        <rdf:type rdf:resource="http://schema.org/Product"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#ByInvoice"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#MasterCard"/>
+        <acceptedPaymentMethods rdf:resource="http://purl.org/goodrelations/v1#VISA"/>
+        <hasBrand rdf:resource="http://webprotege.stanford.edu/AppleIphone"/>
+        <hasPriceSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11ProPricingF%C3%BCr64GB"/>
+        <hasWarrantyPromise rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
+        <hasWarrantyScope rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
+        <schema:manufacturer rdf:resource="http://webprotege.stanford.edu/Apple"/>
+        <webprotege:hasProductSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11ProProduktspezifikation"/>
+        <color xml:lang="de">nachtgrün</color>
+        <name xml:lang="de">Apple iPhone 11 Pro 64 GB Nachtgrün MWC62ZD/A</name>
+        <schema:productID xml:lang="de">A415-1GC</schema:productID>
+        <webprotege:Speicher xml:lang="de">64 GB</webprotege:Speicher>
+        <rdfs:label xml:lang="de">Apple iPhone 11 Pro 64 GB Nachtgrün MWC62ZD/A</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIPhone11ProPricingF%C3%BCr64GB -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIPhone11ProPricingF%C3%BCr64GB">
+        <rdf:type rdf:resource="http://purl.org/goodrelations/v1#UnitPriceSpecification"/>
+        <priceType xml:lang="de">monatliche Rate nur € 94,08</priceType>
+        <priceType xml:lang="de">regulärer Preis 1.129,00 €</priceType>
+        <rdfs:label xml:lang="de">Apple iPhone 11 Pro Pricing für 64 GB</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://webprotege.stanford.edu/AppleIphone11PricingF%C3%BCr265GB -->
+
+    <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIphone11PricingF%C3%BCr265GB">
+        <rdf:type rdf:resource="http://purl.org/goodrelations/v1#PriceSpecification"/>
+        <priceType xml:lang="de">monatliche Rate nur € 79,08</priceType>
+        <priceType xml:lang="de">regulärer Preis 949,00 €</priceType>
+        <rdfs:label>Apple Iphone 11 Pricing für 265 GB</rdfs:label>
     </owl:NamedIndividual>
     <rdf:Description>
         <category>42</category>
