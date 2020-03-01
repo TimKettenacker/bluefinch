@@ -300,6 +300,54 @@ Typical unit code(s): CMT for centimeters, INH for inches</rdfs:comment>
     
 
 
+    <!-- http://webprotege.stanford.edu/hasProductSpecification -->
+
+    <owl:ObjectProperty rdf:about="http://webprotege.stanford.edu/hasProductSpecification">
+        <rdfs:domain rdf:resource="http://schema.org/Product"/>
+        <rdfs:range rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:label xml:lang="en">hasProductSpecification</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/hat_Kamera -->
+
+    <owl:ObjectProperty rdf:about="http://webprotege.stanford.edu/hat_Kamera">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://schema.org/Product"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:range rdf:resource="http://webprotege.stanford.edu/Kamera"/>
+        <rdfs:comment xml:lang="de">verknüpft ein Produkt mit der Spezifikation zur Kamera</rdfs:comment>
+        <rdfs:label xml:lang="de">hat_Kamera</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/hat_Sim -->
+
+    <owl:ObjectProperty rdf:about="http://webprotege.stanford.edu/hat_Sim">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+        <rdfs:domain rdf:resource="http://schema.org/Product"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:range rdf:resource="http://webprotege.stanford.edu/Sim"/>
+        <rdfs:comment xml:lang="de">verknüpft Produkt mit Spezifikation zur Sim</rdfs:comment>
+        <rdfs:label xml:lang="de">hat_Sim</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/hat_Kapazit%C3%A4t -->
+
+    <owl:ObjectProperty rdf:about="http://webprotege.stanford.edu/hat_Kapazit%C3%A4t">
+        <rdfs:domain rdf:resource="http://schema.org/Product"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:range rdf:resource="http://webprotege.stanford.edu/Kapazit%C3%A4t"/>
+        <rdfs:comment xml:lang="de">verknüpft ein Produkt mit der Spezifikation zur Kapazität</rdfs:comment>
+        <rdfs:label xml:lang="de">hat_Kapazität</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://xmlns.com/foaf/0.1/depiction -->
 
     <owl:ObjectProperty rdf:about="http://xmlns.com/foaf/0.1/depiction"/>
@@ -545,6 +593,165 @@ INVOICE: The invoice price, mostly used in the car industry - this is the price 
     <!-- http://schema.org/productID -->
 
     <owl:DatatypeProperty rdf:about="http://schema.org/productID"/>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Akkutyp -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Akkutyp">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/Kapazit%C3%A4t"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:label xml:lang="de">Akkutyp</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Display -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Display">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:label xml:lang="de">Display</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Kamerafeature -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Kamerafeature">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/Kamera"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="de">beschreibt nähere Informationen zur Kamera selbst, z.B. Nachtmodus</rdfs:comment>
+        <rdfs:label xml:lang="de">Kamerafeature</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Kommunikation -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Kommunikation">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:label xml:lang="de">Kommunikation</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Ladeoption -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Ladeoption">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/Kapazit%C3%A4t"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Beispielsweise kabelloses Laden</rdfs:comment>
+        <rdfs:label xml:lang="de">Ladeoption</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Pixel -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Pixel">
+        <rdfs:domain rdf:resource="http://schema.org/Product"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/Kamera"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="de">spezifiziert die Pixelzahl</rdfs:comment>
+        <rdfs:label xml:lang="de">Pixel</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Prozessor -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Prozessor">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:label xml:lang="de">Prozessor</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Schnittstellen -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Schnittstellen">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:label xml:lang="de">Schnittstellen</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Sensor -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Sensor">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:label xml:lang="de">Sensor</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Simkarte -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Simkarte">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/Sim"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:label xml:lang="de">Simkarte</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Simtyp -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Simtyp">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:label xml:lang="de">Simtyp</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Speicher -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Speicher">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:label xml:lang="de">Speicher</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/hat_allgemeines_Feature -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/hat_allgemeines_Feature">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://schema.org/Product"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Beispielsweise Schutz vor Spritzwasser</rdfs:comment>
+        <rdfs:label xml:lang="de">hat_allgemeines_Feature</rdfs:label>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Gespr%C3%A4chszeit -->
+
+    <owl:DatatypeProperty rdf:about="http://webprotege.stanford.edu/Gespr%C3%A4chszeit">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain rdf:resource="http://webprotege.stanford.edu/Kapazit%C3%A4t"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment xml:lang="de">Gesprächszeit vor erneutem Laden</rdfs:comment>
+        <rdfs:label xml:lang="de">Gesprächszeit</rdfs:label>
+    </owl:DatatypeProperty>
     
 
 
@@ -839,6 +1046,62 @@ Examples: Parts and Labor, Parts</rdfs:comment>
     <!-- http://schema.org/Product -->
 
     <owl:Class rdf:about="http://schema.org/Product"/>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Frontkamera -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/Frontkamera">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/Kamera"/>
+        <rdfs:label xml:lang="de">Frontkamera</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Hauptkamera -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/Hauptkamera">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/Kamera"/>
+        <rdfs:label xml:lang="de">Hauptkamera</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Kamera -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/Kamera">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:label xml:lang="de">Kamera</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/ProductSpecification -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/ProductSpecification">
+        <rdfs:comment xml:lang="en">The specification of the product according to the extracted data in Bluefinch</rdfs:comment>
+        <rdfs:label xml:lang="en">ProductSpecification</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Sim -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/Sim">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:comment xml:lang="de">Informationen zur Sim</rdfs:comment>
+        <rdfs:label xml:lang="de">Sim</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://webprotege.stanford.edu/Kapazit%C3%A4t -->
+
+    <owl:Class rdf:about="http://webprotege.stanford.edu/Kapazit%C3%A4t">
+        <rdfs:subClassOf rdf:resource="http://webprotege.stanford.edu/ProductSpecification"/>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">enthält Angaben zu Akkulaufzeit und Features</rdfs:comment>
+        <rdfs:label xml:lang="de">Kapazität</rdfs:label>
+    </owl:Class>
     
 
 
