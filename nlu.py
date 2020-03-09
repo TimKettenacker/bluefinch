@@ -1,8 +1,23 @@
 # parse input from the user (Natural Language Understanding)
 # https://explosion.ai/blog/german-model
 # https://github.com/adbar/German-NLP#Text-corpora
+from owlready2 import *
+import fasttext
 import spacy
 import de_core_news_sm
+from collections import defaultdict
+
+# this section needs to be triggered before the user can converse with the chatbot
+model = fasttext.train_supervised(input="training_set_intents", epoch = 25)
+nlp = de_core_news_sm.load()
+onto_path.append("ontology_material")
+onto = get_ontology("GoodRelationsBluefinch_v1.owl")
+onto.load()
+
+# create a dict for individuals
+individuals = defaultdict(list)
+for individual in onto.individuals():
+    individuals[individual.name] = [individual.iri, individual.is_a.first(), individual.is_instance_of.first()]
 
 userText = "welche iphones hast du?" # welche iphones gibt es? habt ihr iphone 11?
 # wie groß ist der speicher? wie viel speicher hat es?
@@ -10,9 +25,12 @@ userText = "welche iphones hast du?" # welche iphones gibt es? habt ihr iphone 1
 # was kostet das? wie teuer ist das? was ist der preis?
 # kann ich mit mastercard bezahlen?
 
-nlp = de_core_news_sm.load()
 # capitalize every first letter per word to increase noun detection
 doc = nlp(userText.title())
+# do some nlp extraction to feed noun to individuals
+# further may extend to look for predicates
+# fuzzy search keys in individuals for possible hits, i.e. 'AmericanExpress' in individuals.keys()
+model.predict(doc.text)
 
 print(' '.join('{word}/{tag}'.format(word.orth_, tag.tag_) for t in doc))
 
@@ -29,9 +47,3 @@ for chunk in doc.noun_chunks:
 
 # The German dependency labels use the TIGER Treebank annotation scheme.
 # OntoNotes 5 corpus to train NERs#
-
-import fasttext
-help(fasttext.FastText)
-model = fasttext.train_supervised(input="cooking.train", epoch = 25)
-model.predict("Which baking dish is best to bake a banana bread ?")
-model.predict("Why not put knives in the dishwasher?")

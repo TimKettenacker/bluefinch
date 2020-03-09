@@ -1343,32 +1343,6 @@ Note: This is just a rough classification for filtering offers. It is up to the 
     
 
 
-    <!-- http://purl.org/goodrelations/v1#PartsAndLabor-BringIn -->
-
-    <owl:NamedIndividual rdf:about="http://purl.org/goodrelations/v1#PartsAndLabor-BringIn">
-        <rdf:type rdf:resource="http://purl.org/goodrelations/v1#WarrantyScope"/>
-        <rdfs:comment xml:lang="en">In case of a defect or malfunction, the buying party has the right to transport the good to a service location determined by the the selling gr:BusinessEntity and will not be be charged for labor, parts, and materials needed to fix the problem. All those costs will be covered by the selling business entity or one of its partnering business entities.
-
-Note: This is just a rough classification for filtering offers. It is up to the buying party to check the exact scope and terms and conditions of the gr:WarrantyPromise.</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="http://purl.org/goodrelations/v1"/>
-        <rdfs:label xml:lang="en">Parts and labor / bring-in (warranty scope)</rdfs:label>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://purl.org/goodrelations/v1#PartsAndLabor-PickUp -->
-
-    <owl:NamedIndividual rdf:about="http://purl.org/goodrelations/v1#PartsAndLabor-PickUp">
-        <rdf:type rdf:resource="http://purl.org/goodrelations/v1#WarrantyScope"/>
-        <rdfs:comment xml:lang="en">In case of a defect or malfunction, the buying party has the right to request from the selling gr:Business Entity to pick-up the good from its current location to a suitable service location, where the functionality of the good will be restored. All transportation, labor, parts, and materials needed to fix the problem will be covered by the selling business entity or one of its partnering business entities.
-  
-Note: This is just a rough classification for filtering offers. It is up to the buying party to check the exact scope and terms and conditions of the gr:WarrantyPromise.</rdfs:comment>
-        <rdfs:isDefinedBy rdf:resource="http://purl.org/goodrelations/v1"/>
-        <rdfs:label xml:lang="en">Parts and labor / pick up (warranty scope)</rdfs:label>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://purl.org/goodrelations/v1#PayPal -->
 
     <owl:NamedIndividual rdf:about="http://purl.org/goodrelations/v1#PayPal">
@@ -1577,6 +1551,7 @@ Note: This is just a rough classification for filtering offers. It is up to the 
     <!-- http://webprotege.stanford.edu/AppleIphone -->
 
     <owl:NamedIndividual rdf:about="http://webprotege.stanford.edu/AppleIphone">
+        <rdf:type rdf:resource="http://purl.org/goodrelations/v1#Brand"/>
         <rdfs:label>Apple Iphone</rdfs:label>
     </owl:NamedIndividual>
     
@@ -1622,8 +1597,8 @@ Note: This is just a rough classification for filtering offers. It is up to the 
         <hasWarrantyScope rdf:resource="http://webprotege.stanford.edu/AppleIphone"/>
         <schema:manufacturer rdf:resource="http://webprotege.stanford.edu/Apple"/>
         <webprotege:hasProductSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Produktspezifikation"/>
-        <color xml:lang="de">weiß</color>
-        <name xml:lang="de">Apple iPhone 11 128 GB Weiß MWM22ZD/A</name>
+        <color xml:lang="de">weiss</color>
+        <name xml:lang="de">Apple_iPhone_11_128_GB_Weiss</name>
         <schema:productID xml:lang="de">A415-1FX</schema:productID>
         <webprotege:Speicher rdf:datatype="http://www.w3.org/2001/XMLSchema#string">128 GB</webprotege:Speicher>
         <rdfs:label>Apple iPhone 11 128 GB Weiß MWM22ZD/A</rdfs:label>
@@ -1645,7 +1620,7 @@ Note: This is just a rough classification for filtering offers. It is up to the 
         <schema:manufacturer rdf:resource="http://webprotege.stanford.edu/Apple"/>
         <webprotege:hasProductSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Produktspezifikation"/>
         <color xml:lang="de">gelb</color>
-        <name xml:lang="de">Apple iPhone 11 256 GB Gelb MWMA2ZD/A</name>
+        <name xml:lang="de">Apple_iPhone_11_256_GB_Gelb</name>
         <schema:productID xml:lang="de">A415-1G5</schema:productID>
         <webprotege:Speicher xml:lang="de">256 GB</webprotege:Speicher>
         <rdfs:label xml:lang="de">Apple iPhone 11 256 GB Gelb MWMA2ZD/A</rdfs:label>
@@ -1666,8 +1641,8 @@ Note: This is just a rough classification for filtering offers. It is up to the 
         <hasWarrantyScope rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
         <schema:manufacturer rdf:resource="http://webprotege.stanford.edu/Apple"/>
         <webprotege:hasProductSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Produktspezifikation"/>
-        <color xml:lang="de">weiß</color>
-        <name xml:lang="de">Apple iPhone 11 256 GB Weiß MWM82ZD/A</name>
+        <color xml:lang="de">weiss</color>
+        <name xml:lang="de">Apple_iPhone_11_256_GB_Weiss</name>
         <schema:productID xml:lang="de">A415-1G3</schema:productID>
         <webprotege:Speicher xml:lang="de">256 GB</webprotege:Speicher>
         <rdfs:label>Apple iPhone 11 256 GB Weiß MWM82ZD/A</rdfs:label>
@@ -1688,7 +1663,7 @@ Note: This is just a rough classification for filtering offers. It is up to the 
         <schema:manufacturer rdf:resource="http://webprotege.stanford.edu/Apple"/>
         <webprotege:hasProductSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Produktspezifikation"/>
         <color xml:lang="de">gelb</color>
-        <name xml:lang="de">Apple iPhone 11 64 GB Gelb MWLW2ZD/A</name>
+        <name xml:lang="de">Apple_iPhone_11_64_GB_Gelb</name>
         <schema:productID xml:lang="de">A415-1FT</schema:productID>
         <webprotege:Speicher xml:lang="de">64 GB</webprotege:Speicher>
         <rdfs:label>Apple iPhone 11 64 GB Gelb MWLW2ZD/A</rdfs:label>
@@ -1709,8 +1684,8 @@ Note: This is just a rough classification for filtering offers. It is up to the 
         <hasWarrantyScope rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
         <schema:manufacturer rdf:resource="http://webprotege.stanford.edu/Apple"/>
         <webprotege:hasProductSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Produktspezifikation"/>
-        <color xml:lang="de">weiß</color>
-        <name xml:lang="de">Apple iPhone 11 64 GB Weiß MWLU2ZD/A</name>
+        <color xml:lang="de">weiss</color>
+        <name xml:lang="de">Apple_iPhone_11_64_GB_Weiss</name>
         <schema:productID xml:lang="de">A415-1FR</schema:productID>
         <webprotege:Speicher rdf:datatype="http://www.w3.org/2001/XMLSchema#string">64 GB</webprotege:Speicher>
         <rdfs:label xml:lang="de">Apple iPhone 11 64 GB Weiß MWLU2ZD/A</rdfs:label>
@@ -1725,7 +1700,7 @@ Note: This is just a rough classification for filtering offers. It is up to the 
         <webprotege:Akkutyp xml:lang="de">Lithium-Ionen</webprotege:Akkutyp>
         <webprotege:Ladeoption xml:lang="de">Kabelloses Laden (Qi-Standard)</webprotege:Ladeoption>
         <C31:A4chszeit xml:lang="de">26 h am Stück</C31:A4chszeit>
-        <rdfs:label xml:lang="de">Apple iPhone 11 Kapazität</rdfs:label>
+        <rdfs:label xml:lang="de">Apple iPhone 11 Kapazitaet</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -1754,8 +1729,8 @@ Note: This is just a rough classification for filtering offers. It is up to the 
         <hasWarrantyScope rdf:resource="http://webprotege.stanford.edu/AppleIPhone11Garantie"/>
         <schema:manufacturer rdf:resource="http://webprotege.stanford.edu/Apple"/>
         <webprotege:hasProductSpecification rdf:resource="http://webprotege.stanford.edu/AppleIPhone11ProProduktspezifikation"/>
-        <color xml:lang="de">nachtgrün</color>
-        <name xml:lang="de">Apple iPhone 11 Pro 64 GB Nachtgrün MWC62ZD/A</name>
+        <color xml:lang="de">nachtgruen</color>
+        <name xml:lang="de">Apple_iPhone_11_Pro_64_GB_Nachtgruen</name>
         <schema:productID xml:lang="de">A415-1GC</schema:productID>
         <webprotege:Speicher xml:lang="de">64 GB</webprotege:Speicher>
         <rdfs:label xml:lang="de">Apple iPhone 11 Pro 64 GB Nachtgrün MWC62ZD/A</rdfs:label>
@@ -1883,8 +1858,8 @@ Example: Car maintenance could be expressed both as &quot;provide the service ca
     <rdf:Description rdf:about="http://purl.org/goodrelations/v1#Sunday">
         <rdfs:isDefinedBy rdf:resource="http://purl.org/goodrelations/v1"/>
         <rdfs:label xml:lang="en">Sunday (day of week)</rdfs:label>
-        <displayPosition rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">7</displayPosition>
         <rdfs:comment xml:lang="en">Sunday as a day of the week.</rdfs:comment>
+        <displayPosition rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">7</displayPosition>
     </rdf:Description>
     <rdf:Description rdf:about="http://purl.org/goodrelations/v1#Thursday">
         <rdfs:label xml:lang="en">Thursday (day of week)</rdfs:label>
