@@ -14,10 +14,12 @@ onto_path.append("ontology_material")
 onto = get_ontology("GoodRelationsBluefinch_v1.owl")
 onto.load()
 
-# create a dict for individuals
+# have a twofold search to perform faster and yield better results;
+# first, collect all individuals to fuzzy search detected entities against them (i.e. with fuzzywuzzy)
 individuals = defaultdict(list)
 for individual in onto.individuals():
     individuals[individual.name] = [individual.iri, individual.is_a.first(), individual.is_instance_of.first()]
+# second, a detected matching iri goes into ontology to retrieve node connections
 
 userText = "welche iphones hast du?" # welche iphones gibt es? habt ihr iphone 11?
 # wie groß ist der speicher? wie viel speicher hat es?
