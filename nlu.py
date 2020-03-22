@@ -8,7 +8,8 @@ import de_core_news_sm
 from collections import defaultdict
 
 # this section needs to be triggered before the user can converse with the chatbot
-model = fasttext.train_supervised(input="training_set_intents", epoch = 25)
+# model = fasttext.train_supervised(input="training_set_intents", lr=0.9, epoch = 25, wordNgrams=2)
+model = fasttext.load_model("ml_model/model_intent_detection.bin")
 nlp = de_core_news_sm.load()
 onto_path.append("ontology_material")
 onto = get_ontology("GoodRelationsBluefinch_v1.owl")
@@ -32,20 +33,28 @@ doc = nlp(userText.title())
 # do some nlp extraction to feed noun to individuals
 # further may extend to look for predicates
 # fuzzy search keys in individuals for possible hits, i.e. 'AmericanExpress' in individuals.keys()
-model.predict(doc.text)
+# pass lowercase to model prediction, because training data is also lowercase so prediction is allergic to upper case
+model.predict(doc.text.lower())
 
-print(' '.join('{word}/{tag}'.format(word.orth_, tag.tag_) for t in doc))
-
-print('\n'.join('{child:<8} <{label:-^7} {head}'.format(child=t.orth_, label=t.dep_, head=t.head.orth_) for t in doc))
-
-for chunk in doc.noun_chunks:
-    print(chunk.text)
 
 # first, classify what the user wants to do, even if the product is already mentioned. Classify into
 # sentence_types = greeting(opening, closing, politeness), chitchat, action(question, user_wish, imperative), ordinary
 # if there is a clear match between entity of interest and ontology after classifying the intent,
 # it is easier to reply back
 # entity_of_interest - in ontology > narrow down question
+# first, train on labelled data, but pass along rules of what it could have been using spacys
 
-# The German dependency labels use the TIGER Treebank annotation scheme.
-# OntoNotes 5 corpus to train NERs#
+def classify_sentence_type(doc):
+    sentence_type = ''
+    doc_json = doc.to_json()
+    tags = []
+    for i in range (0, len(doc_json['tokens'])):
+        tag = doc_json['tokens'][i]['tag']
+        tags.append(tag)
+
+# should be checking on the first entry only...
+    interrogatives = ['PWAT', 'PWAV', 'PWS'] # which, when, what, ...
+    if any(x in tags for x in interrogatives) == True:
+        sentence_type = 'wh_question'
+
+    return sentence_type
