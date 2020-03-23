@@ -7,6 +7,22 @@ import spacy
 import de_core_news_sm
 from collections import defaultdict
 
+
+def classify_sentence_type(doc):
+    # classifies sentence types according to shallow parsing results
+    sentence_type = ''
+    doc_json = doc.to_json()
+
+    open_question_pointers = ['PWAT', 'PWAV', 'PWS'] # which, when, what, ...
+    closed_question_pointers = ['VMFIN', 'VVFIN', 'VVIMP'] # könnt, habt, ...
+    if (doc_json['tokens'][0]['tag'] in open_question_pointers) == True:
+        sentence_type = 'open_question'
+    if (doc_json['tokens'][0]['tag'] in closed_question_pointers) == True and doc_json['text'].endswith('?'):
+        sentence_type = 'closed_question'
+
+    return sentence_type
+
+
 # this section needs to be triggered before the user can converse with the chatbot
 model = fasttext.load_model("ml_model/model_intent_detection.bin")
 nlp = de_core_news_sm.load()
@@ -31,10 +47,12 @@ doc = nlp(userText.title())
 # pass lowercase to model prediction, because training data is also lowercase so prediction is allergic to upper case
 prediction = model.predict(doc.text.lower())
 if (prediction[1].item() > .7) == True:
-    print(prediction[0]) # if the predicted label meets the criteria, classify sentence type is called
+    # if the predicted label meets the criteria, classify sentence type is called
     # to see whether the result from the model is off; if it is off, jump to "else", if it is not
-    # trigger the lookup in the ontology to find the matching noun and choose suiting response
-    # from response generation module
+    sentence_type = classify_sentence_type(doc)
+    if (sentence_type in prediction[0].__str__()) == True:
+    # trigger noun extraction and ontology lookup to find the matching noun and choose suiting response
+        entity_extraction(doc)
 
 else:
     # return default response; write input + output to log
@@ -47,19 +65,8 @@ else:
 # it is easier to reply back
 # entity_of_interest - in ontology > narrow down question
 
+def entity_extraction(doc):
+    return doc
 
-def classify_sentence_type(doc):
-    # classifies sentence types according to shallow parsing results
-    sentence_type = ''
-    doc_json = doc.to_json()
-    tags = []
-    for i in range (0, len(doc_json['tokens'])):
-        tag = doc_json['tokens'][i]['tag']
-        tags.append(tag)
-
-# should be checking on the first entry only...
-    interrogatives = ['PWAT', 'PWAV', 'PWS'] # which, when, what, ...
-    if any(x in tags for x in interrogatives) == True:
-        sentence_type = 'wh_question'
-
-    return sentence_type
+def ontology_lookup():
+    return
