@@ -66,7 +66,19 @@ else:
 # entity_of_interest - in ontology > narrow down question
 
 def entity_extraction(doc):
-    return doc
+    # automatic entity recognition does not work well for German, hence, I go for the pos and tags
+    doc_json = doc.to_json()
+    poss = []
+    tags = []
+    for i in range(0, len(doc_json['tokens'])):
+        tag = doc_json['tokens'][i]['tag']
+        pos = doc_json['tokens'][i]['pos']
+        tags.append(tag)
+        poss.append(pos)
+    # Apple Iphone - tags: NE, NN; poss: PROPN
+    # Iphone X - tags: NN, XY; poss: NOUN, X
+    # Iphone 11 - tags: NN, CARD; poss: NOUN, NUM
+    return tags, poss
 
 def ontology_lookup():
     return
