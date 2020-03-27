@@ -22,6 +22,48 @@ def classify_sentence_type(doc):
 
     return sentence_type
 
+def get_sequence_index(subseq, seq):
+    i, n, m = -1, len(seq), len(subseq)
+    try:
+        while True:
+            i = seq.index(subseq[0], i + 1, n - m + 1)
+            if subseq == seq[i:i + m]:
+                return i
+    except ValueError:
+        return -1
+
+
+def noun_extraction(doc):
+    # automatic entity recognition does not work well for German, hence, I go for the part-of-speech
+    doc_json = doc.to_json()
+    poss = []
+    for i in range(0, len(doc_json['tokens'])):
+        pos = doc_json['tokens'][i]['pos']
+        poss.append(pos)
+
+    noun_combo = {
+        0: ['PROPN', 'NOUN'],
+        # a proper noun followed by a noun like "Apple Iphone" is most likely yielding the best match
+        1: ['NOUN', 'X'],
+        # a noun followed by a letter or digit like is most likely something like "Iphone X"
+        2: ['NOUN', 'NUM'],
+        # a noun followed by a letter or digit like is most likely something like "Iphone 11"
+        3: ['PROPN'],
+        # a proper noun like "Apple" is the least specific fallback
+        4: ['NOUN']
+        # a noun like "Iphone" is the least specific fallback
+    }
+
+    for a in noun_combo:
+        ix = get_sequence_index(noun_combo[a], poss)
+        if ix != -1:
+            break
+
+    if len(noun_combo[a]) > 1:
+        return doc[ix].text + ' ' + doc[ix+1].text
+    else:
+        return doc[ix].text
+
 
 # this section needs to be triggered before the user can converse with the chatbot
 model = fasttext.load_model("ml_model/model_intent_detection.bin")
@@ -52,7 +94,7 @@ if (prediction[1].item() > .7) == True:
     sentence_type = classify_sentence_type(doc)
     if (sentence_type in prediction[0].__str__()) == True:
     # trigger noun extraction and ontology lookup to find the matching noun and choose suiting response
-        entity_extraction(doc)
+        noun = noun_extraction(doc)
 
 else:
     # return default response; write input + output to log
@@ -65,20 +107,5 @@ else:
 # it is easier to reply back
 # entity_of_interest - in ontology > narrow down question
 
-def entity_extraction(doc):
-    # automatic entity recognition does not work well for German, hence, I go for the pos and tags
-    doc_json = doc.to_json()
-    poss = []
-    tags = []
-    for i in range(0, len(doc_json['tokens'])):
-        tag = doc_json['tokens'][i]['tag']
-        pos = doc_json['tokens'][i]['pos']
-        tags.append(tag)
-        poss.append(pos)
-    # Apple Iphone - tags: NE, NN; poss: PROPN
-    # Iphone X - tags: NN, XY; poss: NOUN, X
-    # Iphone 11 - tags: NN, CARD; poss: NOUN, NUM
-    return tags, poss
-
-def ontology_lookup():
-    return
+def ontology_lookup(noun):
+    return noun
