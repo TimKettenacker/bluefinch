@@ -5,7 +5,7 @@ from owlready2 import *
 import fasttext
 import de_core_news_sm
 from collections import defaultdict
-from fuzzywuzzy import process
+from fuzzywuzzy import process, fuzz
 
 
 def classify_sentence_type(doc):
@@ -19,11 +19,14 @@ def classify_sentence_type(doc):
         sentence_type = 'open_question'
     if (doc_json['tokens'][0]['tag'] in closed_question_pointers) == True and doc_json['text'].endswith('?'):
         sentence_type = 'closed_question'
-
+    else:
+        sentence_type = "undefined"
+    # user wishes and imperatives cannot be derived by formal pos logic just like that and remain "undefined"
     return sentence_type
 
 
 def get_sequence_index(subseq, seq):
+    # returns the index start of a pattern, uses in noun_extraction()
     i, n, m = -1, len(seq), len(subseq)
     try:
         while True:
@@ -35,7 +38,7 @@ def get_sequence_index(subseq, seq):
 
 
 def noun_extraction(doc):
-    # automatic entity recognition does not work well for German, hence, I go for the part-of-speech
+    # automatic entity recognition does not work well for German, hence, I go for pos rules
     doc_json = doc.to_json()
     poss = []
     for i in range(0, len(doc_json['tokens'])):
@@ -60,10 +63,19 @@ def noun_extraction(doc):
         if ix != -1:
             break
 
+    # returns '?' if no noun is present
     if len(noun_combo[a]) > 1:
         return doc[ix].text + ' ' + doc[ix+1].text
     else:
         return doc[ix].text
+
+
+def individual_lookup(noun):
+    # compares detected nouns with instance data from the ontology
+    match_list = process.extractBests(noun, individuals.keys(), scorer=fuzz.UWRatio,
+                                      score_cutoff=75, limit=len(individuals))
+    # depending on the prediction, the caller may filter on all that made the cut in the answer generation
+    return match_list
 
 
 # this section needs to be triggered before the user can converse with the chatbot
@@ -77,7 +89,7 @@ onto.load()
 # first, collect all individuals to fuzzy search detected entities against them (i.e. with fuzzywuzzy)
 individuals = defaultdict(list)
 for individual in onto.individuals():
-    individuals[individual.label.first()] = [individual.iri, individual.is_instance_of.first()]
+    individuals[individual.label.first()] = [individual.iri, individual.is_a.first().name]
 # second, a detected matching iri goes into ontology to retrieve node connections
 
 userText = "welche iphones hast du?"
@@ -92,11 +104,12 @@ prediction = model.predict(doc.text.lower())
 if (prediction[1].item() > .7) == True:
     # if the predicted label meets the criteria, classify sentence type is called
     # to see whether the result from the model is off; if it is off, jump to "else", if it is not
-    sentence_type = classify_sentence_type(doc)
-    if (sentence_type in prediction[0].__str__()) == True:
     # trigger noun extraction and individual lookup to find the matching noun and choose suiting response
-        noun = noun_extraction(doc)
-        individual_lookup(noun, sentence_type)
+    sentence_type = classify_sentence_type(doc)
+    if ((sentence_type in prediction[0].__str__() == True) or sentence_type == 'undefined') == True:
+            noun = noun_extraction(doc)
+            # in case no nouns are found, an empty list is returned from the lookup
+            recognized_individuals = individual_lookup(noun)
 
 else:
     # return default response; write input + output to log
@@ -109,8 +122,16 @@ else:
 # it is easier to reply back
 # entity_of_interest - in ontology > narrow down question
 
-def individual_lookup(noun):
-    match_list = process.extractBests(noun, individuals.keys(), scorer=fuzz.UWRatio,
-                                      score_cutoff=75, limit=len(individuals))
-    # depending on the prediction, the caller may filter on all that made the cut in the answer generation
-    return match_list
+def ontology_search_and_reason(recognized_individuals, prediction):
+    resultSet = []
+    # retrieves knowledge from the ontology based on entities and predictions
+    if 'product_availability_open_question' in prediction[0].__str__():
+        for m, n in individuals.items():
+            if 'Product' in n:
+                resultSet.append(m)
+    return resultSet
+
+individuals[recognized_individuals[1][0]][1] == 'Product'
+t = onto.search(iri = individuals[recognized_individuals[1][0]][0]) # 'http://webprotege.stanford.edu/AppleIPhone11'
+t = t.first()
+t.get_properties()
