@@ -3,9 +3,9 @@
 # https://github.com/adbar/German-NLP#Text-corpora
 from owlready2 import *
 import fasttext
-import spacy
 import de_core_news_sm
 from collections import defaultdict
+from fuzzywuzzy import process
 
 
 def classify_sentence_type(doc):
@@ -21,6 +21,7 @@ def classify_sentence_type(doc):
         sentence_type = 'closed_question'
 
     return sentence_type
+
 
 def get_sequence_index(subseq, seq):
     i, n, m = -1, len(seq), len(subseq)
@@ -69,14 +70,14 @@ def noun_extraction(doc):
 model = fasttext.load_model("ml_model/model_intent_detection.bin")
 nlp = de_core_news_sm.load()
 onto_path.append("ontology_material")
-onto = get_ontology("GoodRelationsBluefinch_v1.owl")
+onto = get_ontology("GoodRelationsBluefinch_v2.owl")
 onto.load()
 
 # have a twofold search to perform faster and yield better results;
 # first, collect all individuals to fuzzy search detected entities against them (i.e. with fuzzywuzzy)
 individuals = defaultdict(list)
 for individual in onto.individuals():
-    individuals[individual.name] = [individual.iri, individual.is_a.first(), individual.is_instance_of.first()]
+    individuals[individual.label.first()] = [individual.iri, individual.is_instance_of.first()]
 # second, a detected matching iri goes into ontology to retrieve node connections
 
 userText = "welche iphones hast du?"
@@ -93,8 +94,9 @@ if (prediction[1].item() > .7) == True:
     # to see whether the result from the model is off; if it is off, jump to "else", if it is not
     sentence_type = classify_sentence_type(doc)
     if (sentence_type in prediction[0].__str__()) == True:
-    # trigger noun extraction and ontology lookup to find the matching noun and choose suiting response
+    # trigger noun extraction and individual lookup to find the matching noun and choose suiting response
         noun = noun_extraction(doc)
+        individual_lookup(noun, sentence_type)
 
 else:
     # return default response; write input + output to log
@@ -107,5 +109,8 @@ else:
 # it is easier to reply back
 # entity_of_interest - in ontology > narrow down question
 
-def ontology_lookup(noun):
-    return noun
+def individual_lookup(noun):
+    match_list = process.extractBests(noun, individuals.keys(), scorer=fuzz.UWRatio,
+                                      score_cutoff=75, limit=len(individuals))
+    # depending on the prediction, the caller may filter on all that made the cut in the answer generation
+    return match_list
