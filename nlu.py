@@ -39,6 +39,8 @@ def noun_extraction(nlp_output):
     # looks for other (proper) nouns, x or nums, which are marked as nk or pnc dependencies and carry
     # the root_noun as head
     found_nouns = []
+    root_noun = ''
+
     for key, value in nlp_output.items():
         if value[1] in ['NOUN', 'PROPN'] and value[3] in ['ROOT', 'pnc']:
             root_noun = value[0]
@@ -57,12 +59,27 @@ def noun_extraction(nlp_output):
     return nouns
 
 
-def individual_lookup(noun):
+def individual_lookup(nouns):
     # compares detected nouns with instance data from the ontology
-    match_list = process.extractBests(noun, individuals.keys(), scorer=fuzz.UWRatio,
+    match_list = process.extractBests(nouns, individuals.keys(), scorer=fuzz.UWRatio,
                                       score_cutoff=75, limit=len(individuals))
+    match_list_cleaned = [[*x] for x in zip(*match_list)]
     # depending on the prediction, the caller may filter on all that made the cut in the answer generation
-    return match_list
+    return match_list_cleaned[0]
+
+
+def ontology_search_and_reason(recognized_individuals, prediction):
+    # retrieves knowledge from the ontology based on recognized individuals and predictions
+    # if "product_availability" is detected, check if any of the recognized individuals map to "product"
+    if 'product_availability' in prediction[0].__str__():
+        for ind in recognized_individuals:
+            if individuals[ind][1] == 'Product':
+                context_individual.append(onto.search(iri=individuals[ind][0]).first())
+                # context_individual[0].label to display names along NLG module
+                # context_individual[0].hat_Produktvariante to display next node leaves
+        context_class = classes['Product']
+    # need to distinguish between open and closed?
+    return context_class, context_individual
 
 
 # this section needs to be triggered before the user can converse with the chatbot
@@ -74,10 +91,17 @@ onto.load()
 
 # have a twofold search to perform faster and yield better results;
 # first, collect all individuals to fuzzy search detected entities against them (i.e. with fuzzywuzzy)
+# second, a detected matching iri goes into ontology to retrieve node connections
+classes = defaultdict(list)
+for cl in onto.classes():
+    classes[cl.name] = cl
+
 individuals = defaultdict(list)
 for individual in onto.individuals():
     individuals[individual.label.first()] = [individual.iri, individual.is_a.first().name]
-# second, a detected matching iri goes into ontology to retrieve node connections
+
+context_class = []
+context_individual = []
 
 userText = "welche iphones hast du?"
 
@@ -95,33 +119,23 @@ if (prediction[1].item() > .7) == True:
     # if the predicted label meets the criteria, classify sentence type is called
     # to see whether the result from the model is off; if it is off, jump to "else", if it is not
     # trigger noun extraction and individual lookup to find the matching noun and choose suiting response
-    sentence_type = classify_sentence_type(doc)
+    sentence_type = classify_sentence_type(nlp_output)
     if ((sentence_type in prediction[0].__str__() == True) or sentence_type == 'undefined') == True:
             nouns = noun_extraction(nlp_output)
             # in case no nouns are found, an empty list is returned from the lookup
             recognized_individuals = individual_lookup(nouns)
+            context = ontology_search_and_reason(recognized_individuals, prediction)
+            context_class = context[0]
+            context_individual = context[1]
+            # pass it to answer generation module
+            # if more than 1 individual is detected, prompt user to narrow it down
 
 else:
     # return default response; write input + output to log
     print("Entschuldigung, das habe ich nicht ganz verstanden")
-
 
 # first, classify what the user wants to do, even if the product is already mentioned. Classify into
 # sentence_types = greeting(opening, closing, politeness), chitchat, action(question, user_wish, imperative), ordinary
 # if there is a clear match between entity of interest and ontology after classifying the intent,
 # it is easier to reply back
 # entity_of_interest - in ontology > narrow down question
-
-def ontology_search_and_reason(recognized_individuals, prediction):
-    resultSet = []
-    # retrieves knowledge from the ontology based on entities and predictions
-    if 'product_availability_open_question' in prediction[0].__str__():
-        for m, n in individuals.items():
-            if 'Product' in n:
-                resultSet.append(m)
-    return resultSet
-
-individuals[recognized_individuals[1][0]][1] == 'Product'
-t = onto.search(iri = individuals[recognized_individuals[1][0]][0]) # 'http://webprotege.stanford.edu/AppleIPhone11'
-t = t.first()
-t.get_properties()
