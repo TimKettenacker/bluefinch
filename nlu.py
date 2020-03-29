@@ -8,16 +8,16 @@ from collections import defaultdict
 from fuzzywuzzy import process, fuzz
 
 
-def classify_sentence_type(doc):
+def classify_sentence_type(doc, nlp_output):
     # classifies sentence types according to shallow parsing results
     sentence_type = ''
     doc_json = doc.to_json()
 
     open_question_pointers = ['PWAT', 'PWAV', 'PWS'] # which, when, what, ...
-    closed_question_pointers = ['VMFIN', 'VVFIN', 'VVIMP'] # könnt, habt, ...
-    if (doc_json['tokens'][0]['tag'] in open_question_pointers) == True:
+    closed_question_pointers = ['VMFIN', 'VVFIN', 'VVIMP', 'VAFIN'] # könnt, habt, ...
+    if nlp_output[0][2] in open_question_pointers:
         sentence_type = 'open_question'
-    if (doc_json['tokens'][0]['tag'] in closed_question_pointers) == True and doc_json['text'].endswith('?'):
+    if nlp_output[0][2] in closed_question_pointers and doc_json['text'].endswith('?'):
         sentence_type = 'closed_question'
     else:
         sentence_type = "undefined"
@@ -37,37 +37,27 @@ def get_sequence_index(subseq, seq):
         return -1
 
 
-def noun_extraction(doc):
-    # automatic entity recognition does not work well for German, hence, I go for pos rules
-    doc_json = doc.to_json()
-    poss = []
-    for i in range(0, len(doc_json['tokens'])):
-        pos = doc_json['tokens'][i]['pos']
-        poss.append(pos)
+def noun_extraction(nlp_output):
+    # looks for a noun or proper noun which is root at the same time, and writes it to root_noun
+    # looks for other (proper) nouns, x or nums, which are marked as nk or pnc dependencies and carry
+    # the root_noun as head
+    found_nouns = []
+    for key, value in nlp_output.items():
+        if value[1] in ['NOUN', 'PROPN'] and value[3] in ['ROOT', 'pnc']:
+            root_noun = value[0]
+            found_nouns.append(value[0])
+        if root_noun in value[4] and value[1] in ['PROPN', 'NOUN', 'X', 'NUM'] and value[3] in ['nk', 'pnc']:
+            found_nouns.append(value[0])
 
-    noun_combo = {
-        0: ['PROPN', 'NOUN'],
-        # a proper noun followed by a noun like "Apple Iphone" is most likely yielding the best match
-        1: ['NOUN', 'X'],
-        # a noun followed by a letter or digit like is most likely something like "Iphone X"
-        2: ['NOUN', 'NUM'],
-        # a noun followed by a letter or digit like is most likely something like "Iphone 11"
-        3: ['PROPN'],
-        # a proper noun like "Apple" is the least specific fallback
-        4: ['NOUN']
-        # a noun like "Iphone" is the least specific fallback
-    }
-
-    for a in noun_combo:
-        ix = get_sequence_index(noun_combo[a], poss)
-        if ix != -1:
-            break
-
-    # returns '?' if no noun is present
-    if len(noun_combo[a]) > 1:
-        return doc[ix].text + ' ' + doc[ix+1].text
-    else:
-        return doc[ix].text
+    nouns = ' '.join(found_nouns)
+    # this should be made test cases:
+    # "Habt ihr das Iphone 11 Pro?" # finds iphone, pro
+    # "Habt ihr Apples Iphone 11?" # finds apples, iphone, 11
+    # "Habt ihr Apples Iphone X?" # finds apples, iphone, x
+    # "Was für apple produkte habt ihr?" # finds apples, produkte
+    # "Was für iphones habt ihr?" # finds iphones
+    # "Welche iphones habt ihr?" # finds iphones, habt
+    return nouns
 
 
 def individual_lookup(noun):
@@ -96,6 +86,9 @@ userText = "welche iphones hast du?"
 
 # capitalize every first letter per word to increase noun detection
 doc = nlp(userText.title())
+nlp_output = defaultdict(list)
+for token in doc:
+    nlp_output[token.i] = [token.text, token.pos_, token.tag_, token.dep_, token.head.text]
 # do some nlp extraction to feed noun to individuals
 # further may extend to look for predicates
 # fuzzy search keys in individuals for possible hits, i.e. 'AmericanExpress' in individuals.keys()
@@ -105,11 +98,11 @@ if (prediction[1].item() > .7) == True:
     # if the predicted label meets the criteria, classify sentence type is called
     # to see whether the result from the model is off; if it is off, jump to "else", if it is not
     # trigger noun extraction and individual lookup to find the matching noun and choose suiting response
-    sentence_type = classify_sentence_type(doc)
+    sentence_type = classify_sentence_type(doc, nlp_output)
     if ((sentence_type in prediction[0].__str__() == True) or sentence_type == 'undefined') == True:
-            noun = noun_extraction(doc)
+            nouns = noun_extraction(nlp_output)
             # in case no nouns are found, an empty list is returned from the lookup
-            recognized_individuals = individual_lookup(noun)
+            recognized_individuals = individual_lookup(nouns)
 
 else:
     # return default response; write input + output to log
