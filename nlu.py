@@ -8,16 +8,13 @@ from collections import defaultdict
 from fuzzywuzzy import process, fuzz
 
 
-def classify_sentence_type(doc, nlp_output):
+def classify_sentence_type(nlp_output):
     # classifies sentence types according to shallow parsing results
-    sentence_type = ''
-    doc_json = doc.to_json()
-
     open_question_pointers = ['PWAT', 'PWAV', 'PWS'] # which, when, what, ...
     closed_question_pointers = ['VMFIN', 'VVFIN', 'VVIMP', 'VAFIN'] # könnt, habt, ...
     if nlp_output[0][2] in open_question_pointers:
         sentence_type = 'open_question'
-    if nlp_output[0][2] in closed_question_pointers and doc_json['text'].endswith('?'):
+    if nlp_output[0][2] in closed_question_pointers and nlp_output[len(nlp_output.keys())-1][0] == '?':
         sentence_type = 'closed_question'
     else:
         sentence_type = "undefined"
@@ -98,7 +95,7 @@ if (prediction[1].item() > .7) == True:
     # if the predicted label meets the criteria, classify sentence type is called
     # to see whether the result from the model is off; if it is off, jump to "else", if it is not
     # trigger noun extraction and individual lookup to find the matching noun and choose suiting response
-    sentence_type = classify_sentence_type(doc, nlp_output)
+    sentence_type = classify_sentence_type(doc)
     if ((sentence_type in prediction[0].__str__() == True) or sentence_type == 'undefined') == True:
             nouns = noun_extraction(nlp_output)
             # in case no nouns are found, an empty list is returned from the lookup
