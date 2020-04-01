@@ -59,10 +59,15 @@ def noun_extraction(nlp_output):
     return nouns
 
 
-def individual_lookup(nouns):
+def individual_lookup(nouns, sentence_type, userText):
     # compares detected nouns with instance data from the ontology
-    match_list = process.extractBests(nouns, individuals.keys(), scorer=fuzz.UWRatio,
-                                      score_cutoff=75, limit=len(individuals))
+    # if a question is closed and short, an honest attempt can be made by throwing in the whole user message
+    if (len(userText) < 50) and sentence_type != "open_question":
+        match_list = process.extractBests(userText, individuals.keys(), scorer=fuzz.UWRatio,
+                                          score_cutoff=70, limit=len(individuals))
+    else:
+        match_list = process.extractBests(nouns, individuals.keys(), scorer=fuzz.UWRatio,
+                                          score_cutoff=70, limit=len(individuals))
     match_list_cleaned = [[*x] for x in zip(*match_list)]
     # depending on the prediction, the caller may filter on all that made the cut in the answer generation
     return match_list_cleaned[0]
@@ -120,10 +125,10 @@ if (prediction[1].item() > .7) == True:
     # to see whether the result from the model is off; if it is off, jump to "else", if it is not
     # trigger noun extraction and individual lookup to find the matching noun and choose suiting response
     sentence_type = classify_sentence_type(nlp_output)
-    if ((sentence_type in prediction[0].__str__() == True) or sentence_type == 'undefined') == True:
+    if ((sentence_type in prediction[0].__str__()) or sentence_type == 'undefined') == True:
             nouns = noun_extraction(nlp_output)
             # in case no nouns are found, an empty list is returned from the lookup
-            recognized_individuals = individual_lookup(nouns)
+            recognized_individuals = individual_lookup(nouns, sentence_type, userText)
             context = ontology_search_and_reason(recognized_individuals, prediction)
             context_class = context[0]
             context_individual = context[1]
