@@ -5,3 +5,4 @@ owlready2==0.23
 spacy==2.2.4
 fasttext==0.9.1
 fuzzywuzzy==0.17.0
+

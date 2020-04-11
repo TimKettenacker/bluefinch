@@ -1,11 +1,15 @@
-# parse input from the user (Natural Language Understanding)
-# https://explosion.ai/blog/german-model
-# https://github.com/adbar/German-NLP#Text-corpora
+# classify what the user wants to do, even if the product is already mentioned. Classify into
+# sentence_types = greeting(opening, closing, politeness), chitchat, action(question, user_wish, imperative), ordinary
+# if there is a clear match between entity of interest and ontology after classifying the intent,
+# it is easier to reply back; if entity of interest is in ontology, the conversation can be navigated more easily
+
 from owlready2 import *
 import fasttext
 import de_core_news_sm
 from collections import defaultdict
+import csv
 from fuzzywuzzy import process, fuzz
+import random
 
 
 def classify_sentence_type(nlp_output):
@@ -14,7 +18,7 @@ def classify_sentence_type(nlp_output):
     closed_question_pointers = ['VMFIN', 'VVFIN', 'VVIMP', 'VAFIN'] # könnt, habt, ...
     if nlp_output[0][2] in open_question_pointers:
         sentence_type = 'open_question'
-    if nlp_output[0][2] in closed_question_pointers and nlp_output[len(nlp_output.keys())-1][0] == '?':
+    elif nlp_output[0][2] in closed_question_pointers and nlp_output[len(nlp_output.keys())-1][0] == '?':
         sentence_type = 'closed_question'
     else:
         sentence_type = "undefined"
@@ -58,7 +62,9 @@ def noun_extraction(nlp_output):
     # "Welche iphones habt ihr?" # finds iphones, habt
     return nouns
 
-
+# have a twofold search to perform faster and yield better results;
+# first, collect all individuals to fuzzy search detected entities against them (i.e. with fuzzywuzzy)
+# second, a detected matching iri goes into ontology to retrieve node connections
 def individual_lookup(nouns, sentence_type, userText):
     # compares detected nouns with instance data from the ontology
     # if a question is closed and short, an honest attempt can be made by throwing in the whole user message
@@ -87,6 +93,22 @@ def ontology_search_and_reason(recognized_individuals, prediction):
     return context_class, context_individual
 
 
+def generate_answer(context_class, context_individual, prediction, possible_responses):
+    # merges the ontology discoveries with replies
+    if (context_class.name == 'Product') and ("product_availability" in prediction[0].__str__()):
+        if len(context_individual) == 1:
+            bot_reply = random.choice(possible_responses['_product_availability_one']) % dict(first = context[1][0].label.first())
+        elif len(context_individual) == 2:
+            bot_reply = random.choice(possible_responses['_product_availability_two']) % dict(first = context[1][0].label.first(), last=context[1][1].label.first())
+        elif len(context_individual) > 2:
+            many = ""
+            for w in context[1]:
+                many += str(w.label.first()) + ", "
+            bot_reply = random.choice(possible_responses['_product_availability_many']) % dict(many=many)
+
+    return bot_reply
+
+
 # this section needs to be triggered before the user can converse with the chatbot
 model = fasttext.load_model("ml_model/model_intent_detection.bin")
 nlp = de_core_news_sm.load()
@@ -94,9 +116,14 @@ onto_path.append("ontology_material")
 onto = get_ontology("GoodRelationsBluefinch_v2.owl")
 onto.load()
 
-# have a twofold search to perform faster and yield better results;
-# first, collect all individuals to fuzzy search detected entities against them (i.e. with fuzzywuzzy)
-# second, a detected matching iri goes into ontology to retrieve node connections
+possible_responses = defaultdict(list)
+with open("ml_model/responses.csv", 'r', newline='') as f:
+    reader = csv.reader(f, delimiter=';')
+    next(reader) # toss headers
+    for label, reply in reader:
+        possible_responses[label].append(reply)
+
+# load ontology classes and instances to enable better and faster searchability
 classes = defaultdict(list)
 for cl in onto.classes():
     classes[cl.name] = cl
@@ -115,8 +142,6 @@ doc = nlp(userText.title())
 nlp_output = defaultdict(list)
 for token in doc:
     nlp_output[token.i] = [token.text, token.pos_, token.tag_, token.dep_, token.head.text]
-# do some nlp extraction to feed noun to individuals
-# further may extend to look for predicates
 # fuzzy search keys in individuals for possible hits, i.e. 'AmericanExpress' in individuals.keys()
 # pass lowercase to model prediction, because training data is also lowercase so prediction is allergic to upper case
 prediction = model.predict(doc.text.lower())
@@ -132,15 +157,8 @@ if (prediction[1].item() > .7) == True:
             context = ontology_search_and_reason(recognized_individuals, prediction)
             context_class = context[0]
             context_individual = context[1]
-            # pass it to answer generation module
-            # if more than 1 individual is detected, prompt user to narrow it down
+            generate_answer(context_class, context_individual, prediction, possible_responses)
 
 else:
     # return default response; write input + output to log
-    print("Entschuldigung, das habe ich nicht ganz verstanden")
-
-# first, classify what the user wants to do, even if the product is already mentioned. Classify into
-# sentence_types = greeting(opening, closing, politeness), chitchat, action(question, user_wish, imperative), ordinary
-# if there is a clear match between entity of interest and ontology after classifying the intent,
-# it is easier to reply back
-# entity_of_interest - in ontology > narrow down question
+    print("Entschuldigung, das habe ich nicht ganz verstanden.")
