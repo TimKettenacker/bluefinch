@@ -162,3 +162,54 @@ if (prediction[1].item() > .7) == True:
 else:
     # return default response; write input + output to log
     print("Entschuldigung, das habe ich nicht ganz verstanden.")
+
+
+# things to do:
+# rewrite to various classes
+# while you are at it, write unit tests for it
+# delete chatterbot remnants
+
+# to be written classes, inspired by the chatterbot code:
+#
+# class chatbot
+#
+# constructor (self, kwargs**) --> https://github.com/gunthercox/ChatterBot/blob/master/chatterbot/chatterbot.py
+# search algorithms --> imported from search class
+# logic adapter --> imported from logic adapter
+#
+# def
+# get_response (self, statement, kwargs**) --> returns bots response
+# statement --> imported from conversation class
+# stores strings for responses and incoming statements and updates any response data (context?)
+# generate_response (self, input_statement, kwargs**) --> replies to user
+# calls process() in logic adapter class and combines results of multiple adapters
+# learn_response (self, statement, previous_response) --> learn if statement provided is a valid response
+# get_latest_response (self, conversation) --> returns latest response in a conversation
+# we need to add nlp stuff somewhere
+
+
+# class search
+#
+# constructor (self, chatbot, kwargs**)
+# Levensthein and so on
+# def
+# search (self, input_statement, kwargs**)
+# search for close matches to the input (instance search? ontology?)
+
+
+# class logic adapter
+#
+# constructor (self, chatbot, kwargs**)
+# search algorithm name
+# maximum_similarity_threshold
+# response_selection_method
+#
+# def
+# process (self, statement, kwargs**) --> to be overwritten, logic to return a response to statement
+# default_response
+
+
+# class conversation
+# statement contains 'in_response_to', 'search_in_response_to', 'created_at',
+# 'conversation', pretty good stuff to think about!
+
