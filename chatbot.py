@@ -13,15 +13,15 @@ class Chatbot(object):
         self.exchanged_conversational_units = 0
 
     def __str__(self):
-        return "This is is a instance of class chatbot with a unique identifier {} " \
+        return "This is an instance of class chatbot with a unique identifier {} " \
                "that was created on {}".format(self.uuid, self.created_at)
 
     def update_conversation(self, user_input=None, **kwargs):
         """
         Updates the ongoing conversation with a user. First, it increases the count of conversational
         exchanges by 1, then it passes the user input on to the natural language understanding module.
-        The natural language understanding module predicts the user intent utilizing the trainer and
-        validates the plausibility of the trainer's predicted intent.
+        The natural language understanding module predicts the user intent utilizing the trainer module
+        and validates the plausibility of the trainer's predicted intent.
 
         The intermediate results are then cross-checked with the ontology search and reasoning module
         which compares the findings to the current and historical context.
@@ -37,5 +37,3 @@ class Chatbot(object):
 
         return None
 
-
-bot = Chatbot()
