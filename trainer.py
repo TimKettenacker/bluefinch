@@ -1,4 +1,5 @@
-import chatbot
+#!/usr/bin/env python3
+
 import fasttext
 
 class Trainer(object):
@@ -35,7 +36,7 @@ class Trainer(object):
         return model
 
 
-    def predict_intent(self, model, input):
+    def predict_intent(self, input):
         """
         Takes a model and an input string and returns a prediction of the latter based on the
         former.
@@ -46,6 +47,6 @@ class Trainer(object):
         tuple value contains an array with only element (float), stating the confidence of the
         correct prediction of the output label (between 0 and 1).
         """
-        model = fasttext.load_model("ml_model/model_intent_detection.bin")
+        model = self.load_model()
         return model.predict(input.lower())
 
