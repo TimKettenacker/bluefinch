@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-
 import de_core_news_sm
 from collections import defaultdict
+import chatbot
 
 class NaturalLanguageProcessor(object):
     """
     Parses statements of the user into entities.
     """
-    def __init__(self, trainer):
-        self.trainer = trainer
+    def __init__(self, chatbot):
+        self.chatbot = chatbot
 
     def __str__(self):
         return "This is an instance of class NaturalLanguageProcessor"
@@ -64,4 +64,33 @@ class NaturalLanguageProcessor(object):
             sentence_type = "undefined"
         return sentence_type
 
-    
+    def noun_extraction(self, nlp_output):
+        """
+        Attempts to extract entities from a user's message in order to grasp the products and product
+        features a user mentions in his text. It is the first step in sharpening the context of a
+        conversation and keeping it alive throughout the chat.
+
+        The entity extraction confines to the typical setup of the domain data and thus is very specialized.
+        I.e., it tries to pay attention to the naming conventions of Apple products where the brand
+        name is followed by a version number or roman letter, i.e. iPhone 11 or iPhone X.
+        Hence, this function first looks for a noun or proper noun which is the sentence root at the same
+        time, and writes this to variable root_noun. It then looks for other (proper) nouns, x or nums,
+        which are marked as nk or pnc dependencies and carry the root noun as its head.
+
+        The returned nouns are then used for lookups in the ontology.
+
+        :param nlp_output: a dictionary containing the 'shallow parsing' results from parse_input()
+        :return: a string containing the entities instrumental to the key content of a message
+        """
+        found_nouns = []
+        root_noun = ''
+
+        for key, value in nlp_output.items():
+            if value[1] in ['NOUN', 'PROPN'] and value[3] in ['ROOT', 'pnc']:
+                root_noun = value[0]
+                found_nouns.append(value[0])
+            if root_noun in value[4] and value[1] in ['PROPN', 'NOUN', 'X', 'NUM'] and value[3] in ['nk', 'pnc']:
+                found_nouns.append(value[0])
+
+        nouns = ' '.join(found_nouns)
+        return nouns

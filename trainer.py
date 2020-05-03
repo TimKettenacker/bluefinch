@@ -36,7 +36,7 @@ class Trainer(object):
         return model
 
 
-    def predict_intent(self, input):
+    def predict_intent(self, model, input):
         """
         Takes a model and an input string and returns a prediction of the latter based on the
         former.
@@ -47,6 +47,5 @@ class Trainer(object):
         tuple value contains an array with only element (float), stating the confidence of the
         correct prediction of the output label (between 0 and 1).
         """
-        model = self.load_model()
         return model.predict(input.lower())
 
