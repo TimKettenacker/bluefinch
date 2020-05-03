@@ -28,7 +28,7 @@ class Chatbot(object):
 
         Any findings are then passed back to this calling function to steer the conversation.
 
-        :param user_input: input of the user to the latest context
+        :param user_input: input of the user (in response to the latest context)
         :param kwargs:
         :return: response to the user input
         """

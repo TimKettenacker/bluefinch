@@ -17,13 +17,23 @@ class Trainer(object):
         """
         Trains the model used for predicting bot response's using the data defined
         in "training_set_intents".
-        This methods needs to be triggered prior to a conversation.
+        This methods needs to be triggered prior to the start of a conversation.
         :return: model object
         """
         model = fasttext.train_supervised(input="ml_model/training_set_intents", lr=0.9,
                                           epoch=25, wordNgrams=2)
         model.save_model("ml_model/model_intent_detection.bin")
         return model
+
+    def load_model(self):
+        """
+        Used to load a pre-trained model from the ml_model directory.
+        This method needs to be triggered prior to the start of a conversation.
+        :return: model object
+        """
+        model = fasttext.load_model("ml_model/model_intent_detection.bin")
+        return model
+
 
     def predict_intent(self, model, input):
         """
@@ -33,7 +43,9 @@ class Trainer(object):
         :param input: a string, passed on from the user input on the UI, either pre-processed
         or directly. A lower-cased version is used to predict the outcome.
         :return: a tuple; the first tuple value contains the predicted output label, the second
-        tuple value contains an array with only element (float), stating the probability of the
-        correct prediction of the output label.
+        tuple value contains an array with only element (float), stating the confidence of the
+        correct prediction of the output label (between 0 and 1).
         """
+        model = fasttext.load_model("ml_model/model_intent_detection.bin")
         return model.predict(input.lower())
+
