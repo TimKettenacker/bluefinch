@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 import de_core_news_sm
 from collections import defaultdict
-import chatbot
 
 class NaturalLanguageProcessor(object):
     """
     Parses statements of the user into entities.
     """
-    def __init__(self, chatbot):
+    def __init__(self, chatbot, **kwargs):
         self.chatbot = chatbot
 
     def __str__(self):
