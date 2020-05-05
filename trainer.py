@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 import fasttext
 
 class Trainer(object):

@@ -19,6 +19,7 @@ class Chatbot(object):
         self.model = self.trainer.load_model()
         self.ontology_lookup = ontology_lookup.OntologyLookup(chatbot=self)
         self.ontology = self.ontology_lookup.load_ontology()
+        self.classes, self.individuals = self.ontology_lookup.display_classes_and_individuals(self.ontology)
 
     def __str__(self):
         return "This is an instance of class chatbot with a unique identifier {} " \
@@ -61,8 +62,14 @@ class Chatbot(object):
                 if not self.nouns:
                     return self.default_response()
                 else:
-                    print(1)
-                    # think about how to include individuals_lookup (should nlp call or chatbot?)
+                    self.recognized_individuals = self.ontology_lookup.individual_lookup(self.nouns, self.sentence_type,
+                                                                                         input, self.individuals)
+                    if not self.recognized_individuals:
+                        return self.default_response()
+                    else:
+                        context_class, context_individual = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals,
+                                                                        self.prediction, self.ontology, self.classes, self.individuals)
+                        return context_class, context_individual
 
         else:
             return self.default_response()
@@ -71,4 +78,3 @@ class Chatbot(object):
 
     def default_response(self):
         return "Entschuldigung, das habe ich nicht ganz verstanden."
-
