@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import uuid
 from datetime import datetime
+import conversation_context
 import trainer
 import natural_language_processor
 import ontology_lookup
@@ -14,7 +15,7 @@ class Chatbot(object):
     def __init__(self, **kwargs):
         self.uuid = uuid.uuid4()
         self.created_at = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        self.exchanged_conversational_units = 0
+        self.context = conversation_context.ConversationContext(chatbot=self)
         self.trainer = trainer.Trainer(chatbot=self)
         self.model = self.trainer.load_model()
         self.ontology_lookup = ontology_lookup.OntologyLookup(chatbot=self)
@@ -42,13 +43,11 @@ class Chatbot(object):
 
         :param input: input of the user (in response to the latest context)
         :param kwargs:
-        :return: response to the user input
+        :return: None, updates the object context of class ConversationContext()
         """
 
-        self.exchanged_conversational_units += 1
-
         if input is None:
-            return self.default_response()
+            return self.context.update_context(responded_with=self.default_response())
 
         self.prediction = self.trainer.predict_intent(model=self.model, input=input)
 
@@ -60,20 +59,24 @@ class Chatbot(object):
 
             if self.sentence_type in str(self.prediction[0]) or self.sentence_type == 'undefined':
                 self.nouns = self.nlu.noun_extraction(self.nlp_output)
+                self.context.update_context(input=input, nouns=self.nouns)
+
                 if not self.nouns:
-                    return self.default_response()
+                    return self.context.update_context(responded_with=self.default_response())
                 else:
                     self.recognized_individuals = self.ontology_lookup.individual_lookup(self.nouns, self.sentence_type,
                                                                                          input, self.individuals)
                     if not self.recognized_individuals:
-                        return self.default_response()
+                        return self.context.update_context(responded_with=self.default_response())
                     else:
-                        context_class, context_individual = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals,
+                        context_class, context_individuals = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals,
                                                                         self.prediction, self.ontology, self.classes, self.individuals)
-                        return context_class, context_individual
+                        self.context.update_context(input=input, nouns=self.nouns, context_class=context_class,
+                                                    context_individuals=context_individuals)
+                        return None
 
         else:
-            return self.default_response()
+            return self.context.update_context(responded_with=self.default_response())
 
         return None
 
