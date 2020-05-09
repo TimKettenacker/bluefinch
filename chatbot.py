@@ -43,7 +43,7 @@ class Chatbot(object):
 
         :param input: input of the user (in response to the latest context)
         :param kwargs:
-        :return: None, updates the object context of class ConversationContext()
+        :return: None, function updates the instance of class ConversationContext()
         """
 
         if input is None:
@@ -69,16 +69,29 @@ class Chatbot(object):
                     if not self.recognized_individuals:
                         return self.context.update_context(responded_with=self.default_response())
                     else:
-                        context_class, context_individuals = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals,
+                        self.context_class, self.context_individuals = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals,
                                                                         self.prediction, self.ontology, self.classes, self.individuals)
-                        self.context.update_context(input=input, nouns=self.nouns, context_class=context_class,
-                                                    context_individuals=context_individuals)
+                        self.context.update_context(input=input, nouns=self.nouns, context_class=self.context_class,
+                                                    context_individuals=self.context_individuals)
                         return None
 
         else:
             return self.context.update_context(responded_with=self.default_response())
 
         return None
+
+    def respond_user(self, input=None):
+        """
+        Generates a respond to the user input. The reply is based on the processed intent of a users' message (which
+        is estimated by invoking grasp_intent()) and the context objects that are in place during runtime.
+        :param input: input of the user (in response to the latest context)
+        :return: a string bot_reply
+        """
+        self.grasp_intent(input)
+        bot_reply = self.context.choose_response(context_class=self.context_class, context_individual=self.context_individuals,
+                                     prediction=self.prediction)
+        self.context.update_context(responded_with=bot_reply)
+        return bot_reply
 
     def default_response(self):
         return "Entschuldigung, das habe ich nicht ganz verstanden."

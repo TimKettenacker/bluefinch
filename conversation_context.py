@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import uuid
 from datetime import datetime
+from collections import defaultdict
+import csv
+import random
 
 class ConversationContext(object):
 
@@ -13,7 +16,7 @@ class ConversationContext(object):
         self.uuid = uuid.uuid4()
         self.created_at = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         self.last_modified = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        self.exchanged_conversational_units = 0
+        self.bidirectional_conversations = 0
         self.in_response_to = 'initial'
         self.detected_ners = ''
         self.current_class = ''
@@ -44,3 +47,43 @@ class ConversationContext(object):
         self.last_modified = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return None
 
+    def load_response_options(self):
+        """
+        Reads in possible responses from a csv file.
+        :return: a list containing all possible response options
+        """
+        possible_responses = defaultdict(list)
+        with open("ml_model/responses.csv", 'r', newline='') as f:
+            reader = csv.reader(f, delimiter=';')
+            next(reader)  # toss headers
+            for label, reply in reader:
+                possible_responses[label].append(reply)
+        return possible_responses
+
+    def choose_response(self, context_class, context_individual, prediction):
+        """
+        For selecting the proper response, this function takes the context of the conversation, the prediction and
+        the sentence types into decision. It processes the content with the help of its inbuilt logic and chooses
+        the best possible outcome from the possible responses list.
+        :param possible_responses: list of possible responses, invokes load_response_options() if not present
+        :param context_class: the class found in an ontology search
+        :param context_individual: the individuals found in an ontology search
+        :param prediction: the prediction result for a sepcific user input
+        :return: the selected string response
+        """
+        possible_responses = self.load_response_options()
+
+        if (context_class.name == 'Product') and ("product_availability" in str(prediction[0])):
+            if len(context_individual) == 1:
+                response = random.choice(possible_responses['_product_availability_one']) % dict(
+                    first=context_individual[0].label.first())
+            elif len(context_individual) == 2:
+                response = random.choice(possible_responses['_product_availability_two']) % dict(
+                    first=context_individual[0].label.first(), last=context_individual[1].label.first())
+            elif len(context_individual) > 2:
+                many = ""
+                for w in context_individual:
+                    many += str(w.label.first()) + ", "
+                response = random.choice(possible_responses['_product_availability_many']) % dict(many=many)
+
+        return response
