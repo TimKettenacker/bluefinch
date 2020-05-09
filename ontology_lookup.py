@@ -56,7 +56,7 @@ class OntologyLookup(object):
         :param input: a string containing the user message
         :param individuals: a dictionary of individuals to an ontology class, extracted through
         display_classes_and_individuals().
-        :return: a list of detected matches.
+        :return: a list of detected matches. If none are found, an empty list is returned.
         """
         if (len(input) < 50) and sentence_type != "open_question":
             match_list = process.extractBests(input, individuals.keys(), scorer=fuzz.UWRatio,
@@ -65,7 +65,7 @@ class OntologyLookup(object):
             match_list = process.extractBests(nouns, individuals.keys(), scorer=fuzz.UWRatio,
                                               score_cutoff=70, limit=len(individuals))
         match_list_cleaned = [[*x] for x in zip(*match_list)]
-        return match_list_cleaned[0]
+        return match_list_cleaned
 
     def ontology_search_and_reason(self, recognized_individuals, prediction, ontology, classes, individuals):
         """

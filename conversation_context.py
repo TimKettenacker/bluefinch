@@ -4,6 +4,7 @@ from datetime import datetime
 from collections import defaultdict
 import csv
 import random
+import chatbot
 
 class ConversationContext(object):
 
@@ -18,16 +19,17 @@ class ConversationContext(object):
         self.last_modified = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         self.bidirectional_conversations = 0
         self.in_response_to = 'initial'
-        self.detected_ners = ''
-        self.current_class = ''
-        self.current_individuals = []
-        self.responded_with = 'initial'
+        self.detected_ners = None
+        self.current_class = None
+        self.current_individuals = None
+        self.responded_with = None
 
     def __str__(self):
         return "This is an instance of class ConversationContext with a unique identifier {} " \
                "that was created on {}".format(self.uuid, self.created_at)
 
-    def update_context(self, input=None, nouns=None, context_class=None, context_individuals=None, responded_with=None,  **kwargs):
+    def update_context(self, input=None, nouns=None, context_class=None, context_individuals=None, responded_with=None,
+                       **kwargs):
         """
         This function updates the context of an ongoing conversation. It is called on an instance of object
         ConversationContext() from within a chatbot to update the context of the conversation based on the
