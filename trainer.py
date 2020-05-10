@@ -12,7 +12,6 @@ class Trainer(object):
     def __str__(self):
         return "This is an instance of class trainer"
 
-
     def train_model(self):
         """
         Trains the model used for predicting bot response's using the data defined
@@ -20,8 +19,8 @@ class Trainer(object):
         This methods needs to be triggered prior to the start of a conversation.
         :return: model object
         """
-        model = fasttext.train_supervised(input="ml_model/training_set_intents", lr=0.9,
-                                          epoch=25, wordNgrams=2)
+        model = fasttext.train_supervised(input="ml_model/training_set_intents", lr=0.8,
+                                          epoch=45, ws=4)
         model.save_model("ml_model/model_intent_detection.bin")
         return model
 
@@ -33,7 +32,6 @@ class Trainer(object):
         """
         model = fasttext.load_model("ml_model/model_intent_detection.bin")
         return model
-
 
     def predict_intent(self, model, input):
         """
