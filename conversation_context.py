@@ -4,7 +4,6 @@ from datetime import datetime
 from collections import defaultdict
 import csv
 import random
-import chatbot
 
 class ConversationContext(object):
 
