@@ -13,6 +13,7 @@ app = Flask(__name__)
 Bootstrap(app)
 
 bot = Chatbot()
+bot.trainer.train_model()
 
 @app.route('/')
 def index():
