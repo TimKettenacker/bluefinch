@@ -51,7 +51,7 @@ class Chatbot(object):
 
         self.prediction = self.trainer.predict_intent(model=self.model, input=input)
 
-        if self.prediction[1].item() > 0.7:
+        if self.prediction[1].item() > 0.6:
 
             self.nlu = natural_language_processor.NaturalLanguageProcessor(chatbot=self)
             self.nlp_output = self.nlu.parse_input(input=input)
@@ -60,20 +60,22 @@ class Chatbot(object):
             if self.sentence_type in str(self.prediction[0]) or self.sentence_type == 'undefined':
                 self.nouns = self.nlu.noun_extraction(self.nlp_output)
                 self.context.update_context(input=input, nouns=self.nouns)
+            else:
+                return  self.context.update_context(responded_with="default")
 
-                if not self.nouns:
+            if not self.nouns:
+                return self.context.update_context(responded_with='default')
+            else:
+                self.recognized_individuals = self.ontology_lookup.individual_lookup(self.nouns, self.sentence_type,
+                                                                                         input, self.individuals)
+                if not self.recognized_individuals:
                     return self.context.update_context(responded_with='default')
                 else:
-                    self.recognized_individuals = self.ontology_lookup.individual_lookup(self.nouns, self.sentence_type,
-                                                                                         input, self.individuals)
-                    if not self.recognized_individuals:
-                        return self.context.update_context(responded_with='default')
-                    else:
-                        self.context_class, self.context_individuals = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals[0],
+                    self.context_class, self.context_individuals = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals[0],
                                                                         self.prediction, self.ontology, self.classes, self.individuals)
-                        self.context.update_context(input=input, nouns=self.nouns, context_class=self.context_class,
+                    self.context.update_context(input=input, nouns=self.nouns, context_class=self.context_class,
                                                     context_individuals=self.context_individuals)
-                        return None
+                    return None
 
         else:
             return self.context.update_context(responded_with='default')

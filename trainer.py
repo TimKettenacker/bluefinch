@@ -20,7 +20,7 @@ class Trainer(object):
         :return: model object
         """
         model = fasttext.train_supervised(input="ml_model/training_set_intents", lr=0.8,
-                                          epoch=45, ws=4)
+                                          epoch=75, ws=4, wordNgrams=2)
         model.save_model("ml_model/model_intent_detection.bin")
         return model
 
