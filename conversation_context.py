@@ -32,7 +32,8 @@ class ConversationContext(object):
         """
         This function updates the context of an ongoing conversation. It is called on an instance of object
         ConversationContext() from within a chatbot to update the context of the conversation based on the
-        parameters below.
+        parameters below. Mind that the parameters have to be explicitly passed to this function to avoid
+        any inconsistencies in the context.
         :param input: a string input message from the user
         :param nouns: the nouns detected by an nlp operation using NaturalLanguageProcessor()
         :param context_class: the class the conversation currently revolves around

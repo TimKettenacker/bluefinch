@@ -59,7 +59,6 @@ class Chatbot(object):
 
             if "confirmation" in str(self.prediction[0]) and self.sentence_type == 'confirmation/rejection':
                 self.context.update_context(context_confirmed=True, input=input)
-                print(self.context.context_confirmed)
             elif "rejection" in str(self.prediction[0]) and self.sentence_type == 'confirmation/rejection':
                 self.context.update_context(context_confirmed=False, input=input)
             elif self.sentence_type in str(self.prediction[0]) or self.sentence_type == 'undefined':
@@ -80,7 +79,6 @@ class Chatbot(object):
                                              self.prediction, self.ontology, self.classes, self.individuals)
             self.context.update_context(input=input, nouns=self.nouns, context_class=self.context_class,
                                                     context_individuals=self.context_individuals)
-            print(self.context.context_confirmed)
             return None
 
         else:
