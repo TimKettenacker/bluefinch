@@ -59,6 +59,8 @@ class NaturalLanguageProcessor(object):
             sentence_type = 'open_question'
         elif nlp_output[0][2] in closed_question_pointers and nlp_output[len(nlp_output.keys()) - 1][0] == '?':
             sentence_type = 'closed_question'
+        elif nlp_output[0][2] == "PTKANT":
+            sentence_type = "confirmation/rejection"
         else:
             sentence_type = "undefined"
         return sentence_type

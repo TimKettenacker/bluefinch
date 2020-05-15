@@ -22,13 +22,13 @@ class ConversationContext(object):
         self.current_class = None
         self.current_individuals = None
         self.responded_with = None
+        self.context_confirmed = None
 
     def __str__(self):
         return "This is an instance of class ConversationContext with a unique identifier {} " \
                "that was created on {}".format(self.uuid, self.created_at)
 
-    def update_context(self, input=None, nouns=None, context_class=None, context_individuals=None, responded_with=None,
-                       **kwargs):
+    def update_context(self, **kwargs):
         """
         This function updates the context of an ongoing conversation. It is called on an instance of object
         ConversationContext() from within a chatbot to update the context of the conversation based on the
@@ -37,14 +37,21 @@ class ConversationContext(object):
         :param nouns: the nouns detected by an nlp operation using NaturalLanguageProcessor()
         :param context_class: the class the conversation currently revolves around
         :param context_individuals: the individuals the conversation currently revolves around
-        :param kwargs:
+        :param context_confirmed: whether the (previous) context has been confirmed or rejected by the user
         :return: None, it updates the ConversationContext() object instead
         """
-        self.in_response_to = input
-        self.detected_ners = nouns
-        self.current_class = context_class
-        self.current_individuals = context_individuals
-        self.responded_with = responded_with
+        if 'input' in kwargs:
+            self.in_response_to = kwargs['input']
+        if 'nouns' in kwargs:
+            self.detected_ners = kwargs['nouns']
+        if 'context_class' in kwargs:
+            self.current_class = kwargs['context_class']
+        if 'context_individuals' in kwargs:
+            self.current_individuals = kwargs['context_individuals']
+        if 'responded_with' in kwargs:
+            self.responded_with = kwargs['responded_with']
+        if 'context_confirmed' in kwargs:
+            self.context_confirmed = kwargs['context_confirmed']
         self.last_modified = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return None
 

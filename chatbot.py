@@ -57,30 +57,35 @@ class Chatbot(object):
             self.nlp_output = self.nlu.parse_input(input=input)
             self.sentence_type = self.nlu.classify_sentence_type(self.nlp_output)
 
-            if self.sentence_type in str(self.prediction[0]) or self.sentence_type == 'undefined':
-                self.nouns = self.nlu.noun_extraction(self.nlp_output)
-                self.context.update_context(input=input, nouns=self.nouns)
+            if "confirmation" in str(self.prediction[0]) and self.sentence_type == 'confirmation/rejection':
+                self.context.update_context(context_confirmed=True, input=input)
+                print(self.context.context_confirmed)
+            elif "rejection" in str(self.prediction[0]) and self.sentence_type == 'confirmation/rejection':
+                self.context.update_context(context_confirmed=False, input=input)
+            elif self.sentence_type in str(self.prediction[0]) or self.sentence_type == 'undefined':
+                self.context.update_context(input=input)
             else:
-                return  self.context.update_context(responded_with="default")
+                return self.context.update_context(responded_with="default")
 
+            self.nouns = self.nlu.noun_extraction(self.nlp_output)
             if not self.nouns:
                 return self.context.update_context(responded_with='default')
-            else:
-                self.recognized_individuals = self.ontology_lookup.individual_lookup(self.nouns, self.sentence_type,
+
+            self.recognized_individuals = self.ontology_lookup.individual_lookup(self.nouns, self.sentence_type,
                                                                                          input, self.individuals)
-                if not self.recognized_individuals:
-                    return self.context.update_context(responded_with='default')
-                else:
-                    self.context_class, self.context_individuals = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals[0],
-                                                                        self.prediction, self.ontology, self.classes, self.individuals)
-                    self.context.update_context(input=input, nouns=self.nouns, context_class=self.context_class,
+            if not self.recognized_individuals:
+                return self.context.update_context(responded_with='default')
+
+            self.context_class, self.context_individuals = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals[0],
+                                             self.prediction, self.ontology, self.classes, self.individuals)
+            self.context.update_context(input=input, nouns=self.nouns, context_class=self.context_class,
                                                     context_individuals=self.context_individuals)
-                    return None
+            print(self.context.context_confirmed)
+            return None
 
         else:
             return self.context.update_context(responded_with='default')
 
-        return None
 
     def respond_user(self, input=None):
         """
