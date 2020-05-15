@@ -94,10 +94,11 @@ class Chatbot(object):
         """
         self.grasp_intent(input)
         if self.context.responded_with == 'default':
-            return self.default_response()
-        bot_reply = self.context.choose_response(context_class=self.context_class, context_individual=self.context_individuals,
+            bot_reply = self.default_response()
+        else:
+            bot_reply = self.context.choose_response(context_class=self.context_class, context_individual=self.context_individuals,
                                      prediction=self.prediction)
-        self.context.update_context(responded_with=bot_reply)
+        self.context.update_context(responded_with=bot_reply, bidirectional_conversations_count =+ 1)
         return bot_reply
 
     def default_response(self):

@@ -16,7 +16,7 @@ class ConversationContext(object):
         self.uuid = uuid.uuid4()
         self.created_at = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         self.last_modified = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        self.bidirectional_conversations = 0
+        self.bidirectional_conversations_count = 0
         self.in_response_to = 'initial'
         self.detected_ners = None
         self.current_class = None
@@ -53,6 +53,8 @@ class ConversationContext(object):
             self.responded_with = kwargs['responded_with']
         if 'context_confirmed' in kwargs:
             self.context_confirmed = kwargs['context_confirmed']
+        if "bidirectional_conversations_count" in kwargs:
+            self.bidirectional_conversations_count += 1
         self.last_modified = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         return None
 
