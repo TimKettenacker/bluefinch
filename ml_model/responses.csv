@@ -5,3 +5,5 @@ _product_availability_two;Ich habe %(first)s und %(last)s. Über welches der Pro
 _product_availability_two;Ich habe %(first)s und %(last)s. Über welches der Beiden möchtest du mehr erfahren?
 _product_availability_many;Ich habe mehrere Produkte gefunden: %(many)s - über welches der Produkte möchtest du mehr erfahren?
 _product_availability_many;Ich habe mehrere Produkte zu deiner Anfrage gefunden: %(many)s - über welches der Produkte möchtest du mehr erfahren?
+_product_variants;Ich habe mehrere Produktvarianten gefunden. Welches interessiert dich näher? %(many)s
+_product_variants;Ich habe mehrere Produktvarianten im Bestand: %(many)s Über welches möchtest du mehr erfahren?

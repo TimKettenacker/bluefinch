@@ -67,18 +67,14 @@ class Chatbot(object):
                 return self.context.update_context(responded_with="default")
 
             self.nouns = self.nlu.noun_extraction(self.nlp_output)
-            if not self.nouns:
-                return self.context.update_context(responded_with='default')
-
             self.recognized_individuals = self.ontology_lookup.individual_lookup(self.nouns, self.sentence_type,
                                                                                          input, self.individuals)
-            if not self.recognized_individuals:
-                return self.context.update_context(responded_with='default')
-
-            self.context_class, self.context_individuals = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals[0],
+            if self.recognized_individuals:
+                self.context_class, self.context_individuals = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals[0],
                                              self.prediction, self.ontology, self.classes, self.individuals)
-            self.context.update_context(input=input, nouns=self.nouns, context_class=self.context_class,
+                self.context.update_context(input=input, nouns=self.nouns, context_class=self.context_class,
                                                     context_individuals=self.context_individuals)
+
             return None
 
         else:
@@ -96,7 +92,7 @@ class Chatbot(object):
         if self.context.responded_with == 'default':
             bot_reply = self.default_response()
         else:
-            bot_reply = self.context.choose_response(context_class=self.context_class, context_individual=self.context_individuals,
+            bot_reply = self.context.choose_response(context_class=self.context_class, context_individuals=self.context_individuals,
                                      prediction=self.prediction)
         self.context.update_context(responded_with=bot_reply, bidirectional_conversations_count =+ 1)
         return bot_reply

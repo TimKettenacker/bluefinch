@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from owlready2 import *
 from fuzzywuzzy import process, fuzz
+from collections import defaultdict
 
 class OntologyLookup(object):
     """
@@ -63,11 +64,12 @@ class OntologyLookup(object):
                                               score_cutoff=70, limit=len(individuals))
         else:
             match_list = process.extractBests(nouns, individuals.keys(), scorer=fuzz.UWRatio,
-                                              score_cutoff=70, limit=len(individuals))
+                                              score_cutoff=50, limit=len(individuals))
         match_list_cleaned = [[*x] for x in zip(*match_list)]
         return match_list_cleaned
 
-    def ontology_search_and_reason(self, recognized_individuals, prediction, ontology, classes, individuals):
+    def ontology_search_and_reason(self, recognized_individuals, prediction, ontology, classes, individuals,
+                                   context_class=None):
         """
         This is the second of two search methods applied to speed up matching entities discovered
         in a user's message to items in an ontology. It retrieves knowledge from the ontology by
@@ -86,4 +88,11 @@ class OntologyLookup(object):
                 if individuals[ind][1] == 'Product':
                     context_individual.append(ontology.search(iri=individuals[ind][0]).first())
             context_class = classes['Product']
+
+        if 'confirmation' in str(prediction[0]) and 'Product' in str(context_class):
+            for ind in recognized_individuals:
+                if individuals[ind][1] == 'Individual':
+                    context_individual.append(ontology.search(iri=individuals[ind][0]).first())
+            context_class = classes['Individual']
+
         return context_class, context_individual

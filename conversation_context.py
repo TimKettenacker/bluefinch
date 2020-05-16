@@ -71,7 +71,19 @@ class ConversationContext(object):
                 possible_responses[label].append(reply)
         return possible_responses
 
-    def choose_response(self, context_class, context_individual, prediction):
+    def traverse_graph(self, context_individuals):
+        """
+        This function retrieves all outgoing relationships and the attached objects from a single
+        individual based on its class.
+        :param context_individuals: the individual of interest, as per display_classes_and_individuals()
+        :return: a dictionary with the relationship as the key and the referenced nodes as its values
+        """
+        attached = defaultdict(list)
+        if context_individuals.is_a[0].name == 'Product':
+            attached['Variants'] = context_individuals.hat_Produktvariante
+        return attached
+
+    def choose_response(self, context_class, context_individuals, prediction):
         """
         For selecting the proper response, this function takes the context of the conversation, the prediction and
         the sentence types into decision. It processes the content with the help of its inbuilt logic and chooses
@@ -85,16 +97,29 @@ class ConversationContext(object):
         possible_responses = self.load_response_options()
 
         if (context_class.name == 'Product') and ("product_availability" in str(prediction[0])):
-            if len(context_individual) == 1:
+            if len(context_individuals) == 1:
                 response = random.choice(possible_responses['_product_availability_one']) % dict(
-                    first=context_individual[0].label.first())
-            elif len(context_individual) == 2:
+                    first=context_individuals[0].label.first())
+            elif len(context_individuals) == 2:
                 response = random.choice(possible_responses['_product_availability_two']) % dict(
-                    first=context_individual[0].label.first(), last=context_individual[1].label.first())
-            elif len(context_individual) > 2:
+                    first=context_individuals[0].label.first(), last=context_individuals[1].label.first())
+            elif len(context_individuals) > 2:
                 many = ""
-                for w in context_individual:
+                for w in context_individuals:
                     many += str(w.label.first()) + ", "
                 response = random.choice(possible_responses['_product_availability_many']) % dict(many=many)
+
+        if (context_class.name == 'Product') and ("confirmation" in str(prediction[0])):
+            attached = []
+            for individual in context_individuals:
+                attached.append(self.traverse_graph(individual))
+            many = ""
+            for e in range(0, len(attached)):
+                for variant in attached[e]['Variants']:
+                    many += str(variant.label.first() + ", ")
+                response = random.choice(possible_responses['_product_variants']) % dict(many=many)
+
+        if context_class.name == 'Individual':
+            response = "to-do"
 
         return response
