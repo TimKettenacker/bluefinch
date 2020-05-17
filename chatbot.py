@@ -20,6 +20,7 @@ class Chatbot(object):
         self.model = self.trainer.load_model()
         self.ontology_lookup = ontology_lookup.OntologyLookup(chatbot=self)
         self.ontology = self.ontology_lookup.load_ontology()
+        self.context_class = ''
         self.classes, self.individuals = self.ontology_lookup.display_classes_and_individuals(self.ontology)
 
     def __str__(self):
@@ -57,9 +58,9 @@ class Chatbot(object):
             self.nlp_output = self.nlu.parse_input(input=input)
             self.sentence_type = self.nlu.classify_sentence_type(self.nlp_output)
 
-            if "confirmation" in str(self.prediction[0]) and self.sentence_type == 'confirmation/rejection':
+            if "confirmation" in str(self.prediction[0]):
                 self.context.update_context(context_confirmed=True, input=input)
-            elif "rejection" in str(self.prediction[0]) and self.sentence_type == 'confirmation/rejection':
+            elif "rejection" in str(self.prediction[0]):
                 self.context.update_context(context_confirmed=False, input=input)
             elif self.sentence_type in str(self.prediction[0]) or self.sentence_type == 'undefined':
                 self.context.update_context(input=input)
@@ -71,7 +72,7 @@ class Chatbot(object):
                                                                                          input, self.individuals)
             if self.recognized_individuals:
                 self.context_class, self.context_individuals = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals[0],
-                                             self.prediction, self.ontology, self.classes, self.individuals)
+                        self.prediction, self.ontology, self.classes, self.individuals, current_context_class=self.context_class)
                 self.context.update_context(input=input, nouns=self.nouns, context_class=self.context_class,
                                                     context_individuals=self.context_individuals)
 
@@ -79,7 +80,6 @@ class Chatbot(object):
 
         else:
             return self.context.update_context(responded_with='default')
-
 
     def respond_user(self, input=None):
         """

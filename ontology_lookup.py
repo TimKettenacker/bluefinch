@@ -68,8 +68,8 @@ class OntologyLookup(object):
         match_list_cleaned = [[*x] for x in zip(*match_list)]
         return match_list_cleaned
 
-    def ontology_search_and_reason(self, recognized_individuals, prediction, ontology, classes, individuals,
-                                   context_class=None):
+    def ontology_search_and_reason(self, recognized_individuals, prediction, ontology, classes,
+                                   individuals, current_context_class=None):
         """
         This is the second of two search methods applied to speed up matching entities discovered
         in a user's message to items in an ontology. It retrieves knowledge from the ontology by
@@ -89,7 +89,7 @@ class OntologyLookup(object):
                     context_individual.append(ontology.search(iri=individuals[ind][0]).first())
             context_class = classes['Product']
 
-        if 'confirmation' in str(prediction[0]) and 'Product' in str(context_class):
+        if 'confirmation' in str(prediction[0]) and 'Product' in str(current_context_class):
             for ind in recognized_individuals:
                 if individuals[ind][1] == 'Individual':
                     context_individual.append(ontology.search(iri=individuals[ind][0]).first())
