@@ -1,0 +1,7 @@
+body, html {
+  background: linear-gradient(70deg, pink, blue);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+}
