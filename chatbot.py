@@ -62,6 +62,7 @@ class Chatbot(object):
                 self.context.update_context(context_confirmed=True, input=input)
             elif "rejection" in str(self.prediction[0]):
                 self.context.update_context(context_confirmed=False, input=input)
+                return self.context.update_context(responded_with='negate')
             elif self.sentence_type in str(self.prediction[0]) or self.sentence_type == 'undefined':
                 self.context.update_context(input=input)
             else:
@@ -75,7 +76,6 @@ class Chatbot(object):
                         self.prediction, self.ontology, self.classes, self.individuals, current_context_class=self.context_class)
                 self.context.update_context(input=input, nouns=self.nouns, context_class=self.context_class,
                                                     context_individuals=self.context_individuals)
-
             return None
 
         else:
@@ -91,6 +91,8 @@ class Chatbot(object):
         self.grasp_intent(input)
         if self.context.responded_with == 'default':
             bot_reply = self.default_response()
+        elif self.context.responded_with == 'negate':
+            bot_reply = self.clarify_response()
         else:
             bot_reply = self.context.choose_response(context_class=self.context_class, context_individuals=self.context_individuals,
                                      prediction=self.prediction)
@@ -99,3 +101,6 @@ class Chatbot(object):
 
     def default_response(self):
         return "Entschuldigung, das habe ich nicht ganz verstanden."
+
+    def clarify_response(self):
+        return "Das scheint wohl nicht ganz zu sein, was du möchtest. Was möchtest du stattdessen?"
