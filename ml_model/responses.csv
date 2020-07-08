@@ -7,3 +7,5 @@ _product_availability_many;Ich habe mehrere Produkte gefunden: %(many)s - über 
 _product_availability_many;Ich habe mehrere Produkte zu deiner Anfrage gefunden: %(many)s - über welches der Produkte möchtest du mehr erfahren?
 _product_variants;Ich habe mehrere Produktvarianten gefunden. Welches interessiert dich näher? %(many)s
 _product_variants;Ich habe mehrere Produktvarianten im Bestand: %(many)s Über welches möchtest du mehr erfahren?
+_variants_finegrain;Möchtest du die Features von %(first)s kennenlernen? Wenn du sie schon kennst, kann ich dir auch was zu den Konditionen erzählen?
+_variants_finegrain;Möchtest du mehr über die Features von %(first)s erfahren oder soll ich dir was zur Preisgestaltung erzählen?

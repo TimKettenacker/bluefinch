@@ -105,48 +105,30 @@ __label__product_availability_open_question was für produkte hast du vorrätig
 __label__product_availability_open_question was für produkte habt ihr vorrätig
 __label__product_availability_open_question was für produkte hast du auf vorrat
 __label__product_availability_open_question was für produkte habt ihr auf vorrat
-__label__product_availability_information_seeking suche produkt
-__label__product_availability_information_seeking suche produkte
-__label__product_availability_information_seeking ich suche produkt
-__label__product_availability_information_seeking ich suche produkte
-__label__product_availability_information_seeking suche nach produkt
-__label__product_availability_information_seeking suche nach produkte
-__label__product_availability_information_seeking ich suche nach produkt
-__label__product_availability_information_seeking ich suche nach produkte
-__label__product_availability_information_seeking will mich über produkt informieren
-__label__product_availability_information_seeking will mich über produkte informieren
-__label__product_availability_information_seeking ich will mich über produkt informieren
-__label__product_availability_information_seeking ich will mich über produkte informieren
-__label__product_availability_information_seeking benötige information über produkt
-__label__product_availability_information_seeking benötige information über produkte
-__label__product_availability_information_seeking ich benötige information über produkt
-__label__product_availability_information_seeking ich benötige information über produkte
-__label__product_availability_information_seeking ich benötige informationen über produkt
-__label__product_availability_information_seeking ich benötige informationen über produkte
-__label__product_availability_information_seeking benötige info über produkt
-__label__product_availability_information_seeking benötige info über produkte
-__label__product_availability_information_seeking ich benötige info über produkt
-__label__product_availability_information_seeking ich benötige info über produkte
-__label__product_availability_information_seeking benötige informationen über produkt
-__label__product_availability_information_seeking benötige informationen über produkte
-__label__product_availability_information_seeking ich benötige informationen über produkt
-__label__product_availability_information_seeking ich benötige informationen über produkte
-__label__product_availability_information_seeking ich möchte produkt
-__label__product_availability_information_seeking ich möchte produkte
-__label__product_availability_information_seeking schaue nach produkt
-__label__product_availability_information_seeking schaue nach produkte
-__label__product_availability_information_seeking ich schaue nach produkt
-__label__product_availability_information_seeking ich schaue nach produkte
-__label__product_availability_information_seeking hätte gerne produkt
-__label__product_availability_information_seeking hätte gerne produkte
-__label__product_availability_information_seeking ich hätte gerne produkt
-__label__product_availability_information_seeking ich hätte gerne produkte
-__label__product_availability_information_seeking ich will produkt
-__label__product_availability_information_seeking ich will produkte
-__label__product_availability_information_seeking brauche produkt
-__label__product_availability_information_seeking brauche produkte
-__label__product_availability_information_seeking ich brauche produkt
-__label__product_availability_information_seeking ich brauche produkte
+__label__product_variant iphone 11 gelb 64 GB
+__label__product_variant iphone 11 weiß 64 GB
+__label__product_variant iphone 11 schwarz 64 GB
+__label__product_variant iphone 11 gelb 256 GB
+__label__product_variant iphone 11 weiß 256 GB
+__label__product_variant iphone 11 schwarz 256 GB
+__label__product_variant iphone 11 gelb 512 GB
+__label__product_variant iphone 11 weiß 512 GB
+__label__product_variant iphone 11 schwarz 512 GB
+__label__product_variant iphone 11 Pro nachtgrün 64 GB
+__label__product_variant iphone 11 Pro nachtgrün 256 GB
+__label__product_variant iphone 11 Pro nachtgrün 512 GB
+__label__product_variant Apple iPhone 11 gelb 64 GB
+__label__product_variant Apple iPhone 11 weiß 64 GB
+__label__product_variant Apple iPhone 11 schwarz 64 GB
+__label__product_variant Apple iPhone 11 gelb 256 GB
+__label__product_variant Apple iPhone 11 weiß 256 GB
+__label__product_variant Apple iPhone 11 schwarz 256 GB
+__label__product_variant Apple iPhone 11 gelb 512 GB
+__label__product_variant Apple iPhone 11 weiß 512 GB
+__label__product_variant Apple iPhone 11 schwarz 512 GB
+__label__product_variant Apple iPhone 11 Pro nachtgrün 64 GB
+__label__product_variant Apple iPhone 11 Pro nachtgrün 256 GB
+__label__product_variant Apple iPhone 11 Pro nachtgrün 512 GB
 __label__confirmation ja
 __label__confirmation jep
 __label__confirmation jap
@@ -175,9 +157,7 @@ __label__rejection nein
 __label__rejection ne
 __label__rejection nö
 __label__rejection no
-__label__rejection nop
 __label__rejection nope
-__label__rejection njet
 __label__rejection nicht
 __label__rejection gar nicht
 __label__rejection nichts davon
@@ -187,20 +167,5 @@ __label__rejection kein
 __label__rejection keins
 __label__rejection keines
 __label__rejection überhaupt nicht
-__label__rejection auf keinen fall
 __label__rejection nicht richtig
 __label__rejection nicht korrekt
-__label__rejection nicht ok
-__label__rejection nicht okay
-__label__rejection nicht okey
-__label__rejection nicht in Ordnung
-__label__rejection ich akzeptiere nicht
-__label__rejection ich akzeptiere das nicht
-__label__rejection ich nehme das nicht an
-__label__rejection ich bestätige nicht
-__label__rejection ich bestätige das nicht
-__label__rejection kommt nicht in die tüte
-__label__rejection nicht einverstanden
-__label__rejection ich bin nicht einverstanden
-__label__rejection nicht einwilligen
-__label__rejection ich willige nicht ein

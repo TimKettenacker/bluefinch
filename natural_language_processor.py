@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import de_core_news_sm
 from collections import defaultdict
+import spacy
 
 class NaturalLanguageProcessor(object):
     """
@@ -40,6 +41,16 @@ class NaturalLanguageProcessor(object):
         for token in doc:
             nlp_output[token.i] = [token.text, token.pos_, token.tag_, token.dep_, token.head.text]
         return nlp_output
+
+    def remove_stopwords(self, input):
+        """
+        Removes German stopwords from the input string.
+        :param input: a string
+        :return: content of input w/out stopwords
+        """
+        nlp = self.load_model()
+        doc = nlp(input.lower())
+        return " ".join([token.text for token in doc if not token.is_stop])
 
     def classify_sentence_type(self, nlp_output):
         """

@@ -2,6 +2,7 @@
 from owlready2 import *
 from fuzzywuzzy import process, fuzz
 from collections import defaultdict
+import natural_language_processor
 
 class OntologyLookup(object):
     """
@@ -10,6 +11,7 @@ class OntologyLookup(object):
 
     def __init__(self, chatbot, **kwargs):
         self.chatbot = chatbot
+        self.nlu = natural_language_processor.NaturalLanguageProcessor(self.chatbot)
 
     def __str__(self):
         return "This is an instance of class OntologyLookup"
@@ -68,8 +70,20 @@ class OntologyLookup(object):
         match_list_cleaned = [[*x] for x in zip(*match_list)]
         return match_list_cleaned
 
+    def match_exactly_once(self, input, individuals):
+        """
+        This is a variation of the first applied search method. Its intended use is to limit the
+        number of returned values from fuzzy matching to exactly one, which is especially helpful
+        if a user pins it down to one entity / somewhat expects only one single entity to be returned.
+        :param input: a string containing the user message
+        :param individuals: a dictionary of individuals to an ontology class, extracted through
+        display_classes_and_individuals().
+        :return: a string of detected matches. If none are found, an empty list is returned.
+        """
+        return process.extractOne(input, individuals.keys())[0]
+
     def ontology_search_and_reason(self, recognized_individuals, prediction, ontology, classes,
-                                   individuals, current_context_class=None):
+        individuals, current_context_class=None, current_context_individuals=None, input=None):
         """
         This is the second of two search methods applied to speed up matching entities discovered
         in a user's message to items in an ontology. It retrieves knowledge from the ontology by
@@ -81,18 +95,24 @@ class OntologyLookup(object):
         :return: a context object
         """
         context_class = []
-        context_individual = []
+        context_individuals = []
 
         if 'product_availability' in str(prediction[0]):
             for ind in recognized_individuals:
                 if individuals[ind][1] == 'Product':
-                    context_individual.append(ontology.search(iri=individuals[ind][0]).first())
+                    context_individuals.append(ontology.search(iri=individuals[ind][0]).first())
             context_class = classes['Product']
 
         if 'confirmation' in str(prediction[0]) and 'Product' in str(current_context_class):
             for ind in recognized_individuals:
                 if individuals[ind][1] == 'Individual':
-                    context_individual.append(ontology.search(iri=individuals[ind][0]).first())
+                    context_individuals.append(ontology.search(iri=individuals[ind][0]).first())
             context_class = classes['Individual']
 
-        return context_class, context_individual
+        if "product_variant" in str(prediction[0]) and 'Product' in str(current_context_class):
+            if current_context_individuals[0].is_instance_of.first().name == 'Product':
+                single_product = self.match_exactly_once(self.nlu.remove_stopwords(input), individuals)
+                context_individuals.append(ontology.search_one(label=single_product))
+                context_class = classes['Individual']
+
+        return context_class, context_individuals

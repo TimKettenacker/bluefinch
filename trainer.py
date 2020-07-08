@@ -19,7 +19,7 @@ class Trainer(object):
         This methods needs to be triggered prior to the start of a conversation.
         :return: model object
         """
-        model = fasttext.train_supervised(input="ml_model/training_set_intents", lr=0.8,
+        model = fasttext.train_supervised(input="ml_model/training_set_intents", lr=0.9,
                                           epoch=75, ws=4, wordNgrams=2)
         model.save_model("ml_model/model_intent_detection.bin")
         return model

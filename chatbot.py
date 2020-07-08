@@ -21,6 +21,7 @@ class Chatbot(object):
         self.ontology_lookup = ontology_lookup.OntologyLookup(chatbot=self)
         self.ontology = self.ontology_lookup.load_ontology()
         self.context_class = ''
+        self.context_individuals = ''
         self.classes, self.individuals = self.ontology_lookup.display_classes_and_individuals(self.ontology)
 
     def __str__(self):
@@ -52,7 +53,7 @@ class Chatbot(object):
 
         self.prediction = self.trainer.predict_intent(model=self.model, input=input)
 
-        if self.prediction[1].item() > 0.6:
+        if self.prediction[1].item() > 0.4:
 
             self.nlu = natural_language_processor.NaturalLanguageProcessor(chatbot=self)
             self.nlp_output = self.nlu.parse_input(input=input)
@@ -71,11 +72,26 @@ class Chatbot(object):
             self.nouns = self.nlu.noun_extraction(self.nlp_output)
             self.recognized_individuals = self.ontology_lookup.individual_lookup(self.nouns, self.sentence_type,
                                                                                          input, self.individuals)
+
             if self.recognized_individuals:
-                self.context_class, self.context_individuals = self.ontology_lookup.ontology_search_and_reason(self.recognized_individuals[0],
-                        self.prediction, self.ontology, self.classes, self.individuals, current_context_class=self.context_class)
-                self.context.update_context(input=input, nouns=self.nouns, context_class=self.context_class,
-                                                    context_individuals=self.context_individuals)
+
+                self.context_class, self.context_individuals = self.ontology_lookup.ontology_search_and_reason(
+                    self.recognized_individuals[0],
+                    self.prediction,
+                    self.ontology,
+                    self.classes,
+                    self.individuals,
+                    current_context_class=self.context_class,
+                    current_context_individuals=self.context_individuals,
+                    input=input)
+
+                self.context.update_context(input=input,
+                                            nouns=self.nouns,
+                                            context_class=self.context_class,
+                                            context_individuals=self.context_individuals)
+                print(self.prediction)
+                print(self.context_class)
+                print(self.context_individuals)
             return None
 
         else:
@@ -94,8 +110,8 @@ class Chatbot(object):
         elif self.context.responded_with == 'negate':
             bot_reply = self.clarify_response()
         else:
-            bot_reply = self.context.choose_response(context_class=self.context_class, context_individuals=self.context_individuals,
-                                     prediction=self.prediction)
+            bot_reply = self.context.choose_response(context_class=self.context_class,
+                            context_individuals=self.context_individuals, prediction=self.prediction)
         self.context.update_context(responded_with=bot_reply, bidirectional_conversations_count =+ 1)
         return bot_reply
 

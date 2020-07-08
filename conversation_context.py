@@ -91,7 +91,7 @@ class ConversationContext(object):
         :param possible_responses: list of possible responses, invokes load_response_options() if not present
         :param context_class: the class found in an ontology search
         :param context_individual: the individuals found in an ontology search
-        :param prediction: the prediction result for a sepcific user input
+        :param prediction: the prediction result for a specific user input
         :return: the selected string response
         """
         possible_responses = self.load_response_options()
@@ -119,7 +119,8 @@ class ConversationContext(object):
                     many += str(variant.label.first() + ", ")
                 response = random.choice(possible_responses['_product_variants']) % dict(many=many)
 
-        if context_class.name == 'Individual':
-            response = "to-do"
+        if (context_class.name == 'Individual') and ("product_variant" in str(prediction[0])):
+            response = random.choice(possible_responses['_variants_finegrain']) % dict(
+                    first=context_individuals[0].label.first())
 
         return response
