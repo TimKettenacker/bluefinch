@@ -109,18 +109,26 @@ class ConversationContext(object):
                     many += str(w.label.first()) + ", "
                 response = random.choice(possible_responses['_product_availability_many']) % dict(many=many)
 
-        if (context_class.name == 'Product') and ("confirmation" in str(prediction[0])):
-            attached = []
-            for individual in context_individuals:
-                attached.append(self.traverse_graph(individual))
-            many = ""
-            for e in range(0, len(attached)):
-                for variant in attached[e]['Variants']:
-                    many += str(variant.label.first() + ", ")
-                response = random.choice(possible_responses['_product_variants']) % dict(many=many)
+        if context_class.name in ['Product', 'Individual'] and ("confirmation" in str(prediction[0])) \
+                or ("product_variant" in str(prediction[0])):
+            if context_individuals[0].is_instance_of.first().name == 'Product':
+                attached = []
+                for individual in context_individuals:
+                    attached.append(self.traverse_graph(individual))
+                many = ""
+                for e in range(0, len(attached)):
+                    for variant in attached[e]['Variants']:
+                        many += str(variant.label.first() + ", ")
+                    response = random.choice(possible_responses['_product_variants']) % dict(many=many)
+            else:
+                response = random.choice(possible_responses['_variants_finegrain']) % dict(first=
+                                                            context_individuals[0].label.first())
 
-        if (context_class.name == 'Individual') and ("product_variant" in str(prediction[0])):
-            response = random.choice(possible_responses['_variants_finegrain']) % dict(
-                    first=context_individuals[0].label.first())
+        # if (context_class.name == 'Individual') and ("product_variant" in str(prediction[0])):
+        #     if context_individuals[0].is_instance_of.first().name == 'Product':
+        #         response = "ficken"
+        #     else:
+        #         response = random.choice(possible_responses['_variants_finegrain']) % dict(
+        #             first=context_individuals[0].label.first())
 
         return response

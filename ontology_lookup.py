@@ -103,13 +103,7 @@ class OntologyLookup(object):
                     context_individuals.append(ontology.search(iri=individuals[ind][0]).first())
             context_class = classes['Product']
 
-        if 'confirmation' in str(prediction[0]) and 'Product' in str(current_context_class):
-            for ind in recognized_individuals:
-                if individuals[ind][1] == 'Individual':
-                    context_individuals.append(ontology.search(iri=individuals[ind][0]).first())
-            context_class = classes['Individual']
-
-        if "product_variant" in str(prediction[0]) and 'Product' in str(current_context_class):
+        if "product_variant" in str(prediction[0]):
             if current_context_individuals[0].is_instance_of.first().name == 'Product':
                 single_product = self.match_exactly_once(self.nlu.remove_stopwords(input), individuals)
                 context_individuals.append(ontology.search_one(label=single_product))

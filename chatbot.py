@@ -111,7 +111,7 @@ class Chatbot(object):
             bot_reply = self.clarify_response()
         else:
             bot_reply = self.context.choose_response(context_class=self.context_class,
-                            context_individuals=self.context_individuals, prediction=self.prediction)
+         context_individuals=self.context_individuals, prediction=self.prediction)
         self.context.update_context(responded_with=bot_reply, bidirectional_conversations_count =+ 1)
         return bot_reply
 
