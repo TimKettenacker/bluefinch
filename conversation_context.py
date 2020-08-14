@@ -124,11 +124,4 @@ class ConversationContext(object):
                 response = random.choice(possible_responses['_variants_finegrain']) % dict(first=
                                                             context_individuals[0].label.first())
 
-        # if (context_class.name == 'Individual') and ("product_variant" in str(prediction[0])):
-        #     if context_individuals[0].is_instance_of.first().name == 'Product':
-        #         response = "ficken"
-        #     else:
-        #         response = random.choice(possible_responses['_variants_finegrain']) % dict(
-        #             first=context_individuals[0].label.first())
-
         return response
